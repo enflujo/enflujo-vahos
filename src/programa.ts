@@ -1,47 +1,41 @@
 import './scss/estilos.scss';
-import Meyda from 'meyda';
+import principalFrag from './glsl/principal.frag';
+import principalVert from './glsl/principal.vert';
+import { crearPrograma, crearShader } from './utilidades/webgl';
 
-const comenzar = document.getElementById('inicio');
+const lienzo = <HTMLCanvasElement>document.getElementById('lienzo');
+const gl = lienzo.getContext('webgl2');
 
-if (comenzar) {
-  comenzar.onclick = () => {
-    inicio();
-  };
+function prepararPrograma() {
+  if (!gl) {
+    throw new Error('Este explorador no funciona con WebGL 2');
+  }
+  const shaderVert = crearShader(gl, gl.VERTEX_SHADER, principalVert);
+  const shaderFrag = crearShader(gl, gl.FRAGMENT_SHADER, principalFrag);
+
+  if (!shaderVert || !shaderFrag) return;
+
+  const programa = crearPrograma(gl, shaderVert, shaderFrag);
+
+  if (!programa) return;
+
+  const ubicacionAtributoPosicion = gl.getAttribLocation(programa, 'a_posicion');
+  const datosPosicion = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, datosPosicion);
+
+  const posiciones = [0, 0, 0, 0.5, 0.7, 0];
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(posiciones), gl.STATIC_DRAW);
+
+  const vao = gl.createVertexArray();
+  gl.bindVertexArray(vao);
+  gl.enableVertexAttribArray(ubicacionAtributoPosicion);
+
+  const size = 2;
+  const type = gl.FLOAT;
+  const normalize = false;
+  const stride = 0;
+  const offset = 0;
+  gl.vertexAttribPointer(ubicacionAtributoPosicion, size, type, normalize, stride, offset);
 }
 
-async function inicio() {
-  const flujo = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-  const ctx = new AudioContext();
-  const fuente = ctx.createMediaStreamSource(flujo);
-
-  const divisor = ctx.createChannelSplitter(2);
-  fuente.connect(divisor);
-
-  const analyzer = Meyda.createMeydaAnalyzer({
-    audioContext: ctx,
-    source: fuente,
-    inputs: 2,
-    bufferSize: 512,
-    channel: 1,
-    featureExtractors: ['amplitudeSpectrum'],
-    callback: (features) => {
-      console.log(features.amplitudeSpectrum);
-    },
-  });
-  // analyzer.setChannel(0);
-  analyzer.start();
-  // const analizador = ctx.createAnalyser();
-  // analizador.fftSize = 2048;
-  // const tamañoBuffer = analizador.frequencyBinCount;
-  // const datosAnalizador = new Uint8Array(tamañoBuffer);
-
-  // function ciclo() {
-  //   analizador.getByteTimeDomainData(datosAnalizador);
-  //   console.log(datosAnalizador.reduce((a, b) => a + b) / datosAnalizador.length);
-  //   requestAnimationFrame(ciclo);
-  // }
-
-  // requestAnimationFrame(ciclo);
-}
-
-console.log('..:: EnFlujo ::..');
+prepararPrograma();
