@@ -1,8 +1,16 @@
-export function crearShader(gl: WebGL2RenderingContext, tipo: number, fuente: string) {
+/**
+ * Carga el programa GLSL a la GPU y lo compila.
+ *
+ * @param gl Contexto del WebGL 2
+ * @param tipo Típo de shader gl.VERTEX_SHADER o gl.FRAGMENT_SHADER
+ * @param glsl Código GLSL del shader
+ * @returns El shader compilado.
+ */
+export function crearShader(gl: WebGL2RenderingContext, tipo: number, glsl: string): WebGLShader | undefined {
   const shader = gl.createShader(tipo);
 
   if (!shader) return;
-  gl.shaderSource(shader, fuente);
+  gl.shaderSource(shader, glsl);
   gl.compileShader(shader);
 
   const shaderCompiladoExitosamente: boolean = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
@@ -10,11 +18,25 @@ export function crearShader(gl: WebGL2RenderingContext, tipo: number, fuente: st
     return shader;
   }
 
-  console.log(gl.getShaderInfoLog(shader));
-  gl.deleteShader(shader);
+  // En este punto el shader no se pudo compilar.
+  console.log(gl.getShaderInfoLog(shader)); // Imprime información del shader que no se pudo compilar.
+  gl.deleteShader(shader); // Limpia el proceso de la GPU.
+  return;
 }
 
-export function crearPrograma(gl: WebGL2RenderingContext, shaderVert: WebGLShader, shaderFrag: WebGLShader) {
+/**
+ * Crea un programa con la pareja de shaders en la GPU.
+ *
+ * @param gl Contexto del WebGL 2
+ * @param shaderVert Shader de vertices compilado.
+ * @param shaderFrag Shader de fragmentos compilado.
+ * @returns Programa compilado
+ */
+export function crearPrograma(
+  gl: WebGL2RenderingContext,
+  shaderVert: WebGLShader,
+  shaderFrag: WebGLShader
+): WebGLProgram | undefined {
   const programa = gl.createProgram();
 
   if (!programa) return;
@@ -29,4 +51,5 @@ export function crearPrograma(gl: WebGL2RenderingContext, shaderVert: WebGLShade
 
   console.log(gl.getProgramInfoLog(programa));
   gl.deleteProgram(programa);
+  return;
 }

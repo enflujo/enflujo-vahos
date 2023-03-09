@@ -1,4 +1,4 @@
-const anaSol = {
+export const anaSol = {
   fuente: '/anaSol_5x1-3115x600_1.webp',
   ancho: 3115,
   alto: 600,
@@ -13,7 +13,7 @@ const anaSol = {
   ],
 };
 
-const fondo1 = {
+export const fondo1 = {
   fuente: '/fondo1_5x1-10829x1080_1.webp',
   ancho: 10829,
   alto: 1080,
@@ -28,7 +28,7 @@ const fondo1 = {
   ],
 };
 
-const fondo2 = {
+export const fondo2 = {
   fuente: '/fondo2_5x1-13806x1080_1.webp',
   ancho: 13806,
   alto: 1080,
@@ -43,7 +43,7 @@ const fondo2 = {
   ],
 };
 
-const fondo3 = {
+export const fondo3 = {
   fuente: '/fondo3_5x1-15154x800_1.webp',
   ancho: 15154,
   alto: 800,
@@ -58,7 +58,7 @@ const fondo3 = {
   ],
 };
 
-const montañaPajaro = {
+export const montañaPajaro = {
   fuente: '/montañaPajaro_3x7-6204x2520_1.webp',
   ancho: 6204,
   alto: 2520,
@@ -89,7 +89,7 @@ const montañaPajaro = {
   ],
 };
 
-const giraSol = {
+export const giraSol = {
   fuente: '/giraSol_4x4-2683x3000_1.webp',
   ancho: 2683,
   alto: 3000,
@@ -115,7 +115,7 @@ const giraSol = {
   ],
 };
 
-const arbolSol = {
+export const arbolSol = {
   fuente: '/arbolSol_7x2-7922x2000_1.webp',
   ancho: 7922,
   alto: 2000,
@@ -139,7 +139,7 @@ const arbolSol = {
   ],
 };
 
-const fondo4 = {
+export const fondo4 = {
   fuente: '/fondo4_5x1-11720x1000_1.webp',
   ancho: 11720,
   alto: 1000,
@@ -154,7 +154,7 @@ const fondo4 = {
   ],
 };
 
-const pasto = {
+export const pasto = {
   fuente: '/pasto_5x3-5598x2000_1.webp',
   ancho: 5598,
   alto: 2000,
