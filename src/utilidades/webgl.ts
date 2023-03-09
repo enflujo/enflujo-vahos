@@ -34,9 +34,14 @@ export function crearShader(gl: WebGL2RenderingContext, tipo: number, glsl: stri
  */
 export function crearPrograma(
   gl: WebGL2RenderingContext,
-  shaderVert: WebGLShader,
-  shaderFrag: WebGLShader
+  codigoVert: string,
+  codigoFrag: string
 ): WebGLProgram | undefined {
+  const shaderVert = crearShader(gl, gl.VERTEX_SHADER, codigoVert);
+  const shaderFrag = crearShader(gl, gl.FRAGMENT_SHADER, codigoFrag);
+
+  if (!shaderVert || !shaderFrag) return;
+
   const programa = gl.createProgram();
 
   if (!programa) return;
@@ -52,4 +57,10 @@ export function crearPrograma(
   console.log(gl.getProgramInfoLog(programa));
   gl.deleteProgram(programa);
   return;
+}
+
+export function crearRectangulo(gl: WebGL2RenderingContext, x1: number, y1: number, ancho: number, alto: number) {
+  const x2 = x1 + ancho;
+  const y2 = y1 + alto;
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([x1, y1, x2, y1, x1, y2, x1, y2, x2, y1, x2, y2]), gl.STATIC_DRAW);
 }

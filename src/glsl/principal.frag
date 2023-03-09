@@ -1,12 +1,12 @@
 #version 300 es
 
-precision highp float;
+precision mediump float;
 
-uniform sampler2D u_imagen;
+uniform sampler2D uImagen;
 in vec2 v_coordenadaTextura;
 
 out vec4 color;
 
 void main() {
-  color = texture(u_imagen, v_coordenadaTextura);
+  color = texture(uImagen, v_coordenadaTextura);
 }
