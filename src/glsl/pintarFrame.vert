@@ -1,11 +1,11 @@
 #version 300 es
 
-layout(location = 0) in vec4 aPosicion;
-layout(location = 1) in vec2 aTextura;
+in vec4 aPosicion;
+in vec2 aCoordsTextura;
 
 out vec2 vCoordenadaTextura;
 
 void main() {
-  vCoordenadaTextura = aTextura;
+  vCoordenadaTextura = aCoordsTextura;
   gl_Position = aPosicion;
 }
