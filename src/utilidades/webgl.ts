@@ -64,3 +64,18 @@ export function crearRectangulo(gl: WebGL2RenderingContext, x1: number, y1: numb
   const y2 = y1 + alto;
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([x1, y1, x2, y1, x1, y2, x1, y2, x2, y1, x2, y2]), gl.STATIC_DRAW);
 }
+
+export function sacarDatosImagen() {
+  const lienzo = document.createElement('canvas');
+  const ctx = lienzo.getContext('2d');
+
+  return (img: HTMLImageElement) => {
+    const { naturalWidth, naturalHeight } = img;
+    lienzo.width = naturalWidth;
+    lienzo.height = naturalHeight;
+
+    ctx?.drawImage(img, 0, 0);
+
+    return ctx?.getImageData(0, 0, naturalWidth, naturalHeight).data;
+  };
+}

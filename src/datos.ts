@@ -14,8 +14,6 @@ interface DatosImagen {
   vertices: number[];
 }
 
-interface Datos {}
-
 const datos: { [llave: string]: DatosImagen } = {
   anaSol: {
     fuente: '/anaSol_5x1-3115x600_1.webp',
