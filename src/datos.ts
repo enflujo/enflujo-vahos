@@ -1,3 +1,5 @@
+import { ISpritesheetData } from 'pixijs';
+
 interface DatosFotograma {
   x: number;
   y: number;
@@ -30,6 +32,7 @@ const datos: { [llave: string]: DatosImagen } = {
     ],
     vertices: [],
   },
+
   fondo1: {
     fuente: '/fondo1_5x1-10829x1080_1.webp',
     ancho: 10829,
@@ -196,36 +199,36 @@ const datos: { [llave: string]: DatosImagen } = {
     ],
     vertices: [],
   },
+
+  // fondo0: {
+  //   fuente: '/fondo1_5x1-10829x1080_1.webp',
+  //   frames: {
+  //     frame1: { frame: { x: 0, y: 0, w: 2165, h: 1080 } },
+  //     frame2: { frame: { x: 2165, y: 0, w: 2165, h: 1080 } },
+  //     frame3: { frame: { x: 4330, y: 0, w: 2165, h: 1080 } },
+  //     frame4: { frame: { x: 6495, y: 0, w: 2165, h: 1080 } },
+  //     frame5: { frame: { x: 8660, y: 0, w: 2165, h: 1080 } },
+  //   },
+  //   animations: {
+  //     anim: ['frame1', 'frame2', 'frame3', 'frame4', 'frame5'],
+  //   },
+  // },
 };
+interface IDatosParaPixi extends ISpritesheetData {
+  fuente: string;
+}
+const datosFormatoPixi: { [nombre: string]: IDatosParaPixi } = {};
 
 for (const llave in datos) {
   const imagen = datos[llave];
-  imagen.vertices = [];
-  imagen.fotogramas.forEach((fotograma) => {
-    const ancho = (fotograma.ancho / imagen.ancho) * 2 - 1;
-    const alto = (fotograma.alto / imagen.alto) * 2 - 1;
-    const x = (fotograma.x / imagen.ancho) * 2 - 1;
-    const y = (fotograma.y / imagen.alto) * 2 - 1;
-    /**
-     * +
-     * |\
-     */
-    const puntoSupIzq = [x, y];
-    const puntoInfDer = [ancho, alto];
-    const puntoInfIzq = [x, alto];
-    const puntoSupDer = [ancho, y];
+  datosFormatoPixi[llave] = { fuente: imagen.fuente, frames: {}, meta: { scale: '1' }, animations: { anim: [] } };
 
-    imagen.vertices?.push(
-      ...puntoSupIzq,
-      ...puntoInfDer,
-      ...puntoInfIzq,
-      ...puntoSupIzq,
-      ...puntoSupDer,
-      ...puntoInfDer
-    );
-
-    // return [...[x, y, ancho, alto]];
+  imagen.fotogramas.forEach((fotograma, i) => {
+    datosFormatoPixi[llave].frames[`${llave}${i}`] = {
+      frame: { x: fotograma.x, y: fotograma.y, w: fotograma.ancho, h: fotograma.alto },
+    };
+    datosFormatoPixi[llave].animations.anim.push(`${llave}${i}`);
   });
 }
 
-export default datos;
+export default datosFormatoPixi;
