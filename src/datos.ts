@@ -12,8 +12,8 @@ interface DatosImagen {
   alto: number;
   columnas: number;
   filas: number;
+  invertido?: boolean;
   fotogramas: DatosFotograma[];
-  vertices: number[];
 }
 
 const datos: { [llave: string]: DatosImagen } = {
@@ -30,7 +30,6 @@ const datos: { [llave: string]: DatosImagen } = {
       { x: 1869, y: 0, ancho: 623, alto: 600 },
       { x: 2492, y: 0, ancho: 623, alto: 600 },
     ],
-    vertices: [],
   },
 
   fondo1: {
@@ -46,7 +45,6 @@ const datos: { [llave: string]: DatosImagen } = {
       { x: 6495, y: 0, ancho: 2165, alto: 1080 },
       { x: 8660, y: 0, ancho: 2165, alto: 1080 },
     ],
-    vertices: [],
   },
   fondo2: {
     fuente: '/fondo2_5x1-13806x1080_1.webp',
@@ -61,7 +59,6 @@ const datos: { [llave: string]: DatosImagen } = {
       { x: 8283, y: 0, ancho: 2761, alto: 1080 },
       { x: 11044, y: 0, ancho: 2761, alto: 1080 },
     ],
-    vertices: [],
   },
   fondo3: {
     fuente: '/fondo3_5x1-15154x800_1.webp',
@@ -76,7 +73,6 @@ const datos: { [llave: string]: DatosImagen } = {
       { x: 9090, y: 0, ancho: 3030, alto: 800 },
       { x: 12120, y: 0, ancho: 3030, alto: 800 },
     ],
-    vertices: [],
   },
   montañaPajaro: {
     fuente: '/montañaPajaro_3x7-6204x2520_1.webp',
@@ -107,7 +103,6 @@ const datos: { [llave: string]: DatosImagen } = {
       { x: 2068, y: 2160, ancho: 2068, alto: 360 },
       { x: 4136, y: 2160, ancho: 2068, alto: 360 },
     ],
-    vertices: [],
   },
   giraSol: {
     fuente: '/giraSol_4x4-2683x3000_1.webp',
@@ -115,6 +110,7 @@ const datos: { [llave: string]: DatosImagen } = {
     alto: 3000,
     columnas: 4,
     filas: 4,
+    invertido: true,
     fotogramas: [
       { x: 0, y: 0, ancho: 670, alto: 750 },
       { x: 670, y: 0, ancho: 670, alto: 750 },
@@ -133,7 +129,6 @@ const datos: { [llave: string]: DatosImagen } = {
       { x: 1340, y: 2250, ancho: 670, alto: 750 },
       { x: 2010, y: 2250, ancho: 670, alto: 750 },
     ],
-    vertices: [],
   },
   arbolSol: {
     fuente: '/arbolSol_7x2-7922x2000_1.webp',
@@ -141,6 +136,7 @@ const datos: { [llave: string]: DatosImagen } = {
     alto: 2000,
     columnas: 7,
     filas: 2,
+    invertido: true,
     fotogramas: [
       { x: 0, y: 0, ancho: 1131, alto: 1000 },
       { x: 1131, y: 0, ancho: 1131, alto: 1000 },
@@ -157,7 +153,6 @@ const datos: { [llave: string]: DatosImagen } = {
       { x: 5655, y: 1000, ancho: 1131, alto: 1000 },
       { x: 6786, y: 1000, ancho: 1131, alto: 1000 },
     ],
-    vertices: [],
   },
   fondo4: {
     fuente: '/fondo4_5x1-11720x1000_1.webp',
@@ -172,7 +167,6 @@ const datos: { [llave: string]: DatosImagen } = {
       { x: 7032, y: 0, ancho: 2344, alto: 1000 },
       { x: 9376, y: 0, ancho: 2344, alto: 1000 },
     ],
-    vertices: [],
   },
   pasto: {
     fuente: '/pasto_5x3-5598x2000_1.webp',
@@ -180,6 +174,7 @@ const datos: { [llave: string]: DatosImagen } = {
     alto: 2000,
     columnas: 5,
     filas: 3,
+    invertido: true,
     fotogramas: [
       { x: 0, y: 0, ancho: 1119, alto: 666 },
       { x: 1119, y: 0, ancho: 1119, alto: 666 },
@@ -197,22 +192,278 @@ const datos: { [llave: string]: DatosImagen } = {
       { x: 3357, y: 1332, ancho: 1119, alto: 666 },
       { x: 4476, y: 1332, ancho: 1119, alto: 666 },
     ],
-    vertices: [],
   },
 
-  // fondo0: {
-  //   fuente: '/fondo1_5x1-10829x1080_1.webp',
-  //   frames: {
-  //     frame1: { frame: { x: 0, y: 0, w: 2165, h: 1080 } },
-  //     frame2: { frame: { x: 2165, y: 0, w: 2165, h: 1080 } },
-  //     frame3: { frame: { x: 4330, y: 0, w: 2165, h: 1080 } },
-  //     frame4: { frame: { x: 6495, y: 0, w: 2165, h: 1080 } },
-  //     frame5: { frame: { x: 8660, y: 0, w: 2165, h: 1080 } },
-  //   },
-  //   animations: {
-  //     anim: ['frame1', 'frame2', 'frame3', 'frame4', 'frame5'],
-  //   },
-  // },
+  montañaArboles: {
+    fuente: '/montañaArboles_5x2-3154x900_1.webp',
+    ancho: 3154,
+    alto: 900,
+    columnas: 5,
+    filas: 2,
+    invertido: true,
+    fotogramas: [
+      { x: 0, y: 0, ancho: 630, alto: 450 },
+      { x: 630, y: 0, ancho: 630, alto: 450 },
+      { x: 1260, y: 0, ancho: 630, alto: 450 },
+      { x: 1890, y: 0, ancho: 630, alto: 450 },
+      { x: 2520, y: 0, ancho: 630, alto: 450 },
+      { x: 0, y: 450, ancho: 630, alto: 450 },
+      { x: 630, y: 450, ancho: 630, alto: 450 },
+      { x: 1260, y: 450, ancho: 630, alto: 450 },
+      { x: 1890, y: 450, ancho: 630, alto: 450 },
+      { x: 2520, y: 450, ancho: 630, alto: 450 },
+    ],
+  },
+
+  lampara: {
+    fuente: '/lampara_3x3-687x800_1.webp',
+    ancho: 687,
+    alto: 800,
+    columnas: 3,
+    filas: 3,
+    fotogramas: [
+      { x: 0, y: 0, ancho: 229, alto: 266 },
+      { x: 229, y: 0, ancho: 229, alto: 266 },
+      { x: 458, y: 0, ancho: 229, alto: 266 },
+      { x: 0, y: 266, ancho: 229, alto: 266 },
+      { x: 229, y: 266, ancho: 229, alto: 266 },
+      { x: 458, y: 266, ancho: 229, alto: 266 },
+      { x: 0, y: 532, ancho: 229, alto: 266 },
+      { x: 229, y: 532, ancho: 229, alto: 266 },
+      { x: 458, y: 532, ancho: 229, alto: 266 },
+    ],
+  },
+
+  floresExplosivas: {
+    fuente: '/floresExplosivas_11x2-8575x1200_1.webp',
+    ancho: 8575,
+    alto: 1200,
+    columnas: 11,
+    filas: 2,
+    invertido: true,
+    fotogramas: [
+      { x: 0, y: 0, ancho: 779, alto: 600 },
+      { x: 779, y: 0, ancho: 779, alto: 600 },
+      { x: 1558, y: 0, ancho: 779, alto: 600 },
+      { x: 2337, y: 0, ancho: 779, alto: 600 },
+      { x: 3116, y: 0, ancho: 779, alto: 600 },
+      { x: 3895, y: 0, ancho: 779, alto: 600 },
+      { x: 4674, y: 0, ancho: 779, alto: 600 },
+      { x: 5453, y: 0, ancho: 779, alto: 600 },
+      { x: 6232, y: 0, ancho: 779, alto: 600 },
+      { x: 7011, y: 0, ancho: 779, alto: 600 },
+      { x: 7790, y: 0, ancho: 779, alto: 600 },
+      { x: 0, y: 600, ancho: 779, alto: 600 },
+      { x: 779, y: 600, ancho: 779, alto: 600 },
+      { x: 1558, y: 600, ancho: 779, alto: 600 },
+      { x: 2337, y: 600, ancho: 779, alto: 600 },
+      { x: 3116, y: 600, ancho: 779, alto: 600 },
+      { x: 3895, y: 600, ancho: 779, alto: 600 },
+      { x: 4674, y: 600, ancho: 779, alto: 600 },
+      { x: 5453, y: 600, ancho: 779, alto: 600 },
+      { x: 6232, y: 600, ancho: 779, alto: 600 },
+      { x: 7011, y: 600, ancho: 779, alto: 600 },
+      { x: 7790, y: 600, ancho: 779, alto: 600 },
+    ],
+  },
+
+  pescadini: {
+    fuente: '/pescadini_5x2-2128x1500_1.webp',
+    ancho: 2128,
+    alto: 1500,
+    columnas: 5,
+    filas: 2,
+    invertido: true,
+    fotogramas: [
+      { x: 0, y: 0, ancho: 425, alto: 750 },
+      { x: 425, y: 0, ancho: 425, alto: 750 },
+      { x: 850, y: 0, ancho: 425, alto: 750 },
+      { x: 1275, y: 0, ancho: 425, alto: 750 },
+      { x: 1700, y: 0, ancho: 425, alto: 750 },
+      { x: 0, y: 750, ancho: 425, alto: 750 },
+      { x: 425, y: 750, ancho: 425, alto: 750 },
+      { x: 850, y: 750, ancho: 425, alto: 750 },
+      { x: 1275, y: 750, ancho: 425, alto: 750 },
+      { x: 1700, y: 750, ancho: 425, alto: 750 },
+    ],
+  },
+
+  monstruoMar: {
+    fuente: '/monstruoMar_7x4-4108x1200_1.webp',
+    ancho: 4108,
+    alto: 1200,
+    columnas: 7,
+    filas: 4,
+    invertido: true,
+    fotogramas: [
+      { x: 0, y: 0, ancho: 586, alto: 300 },
+      { x: 586, y: 0, ancho: 586, alto: 300 },
+      { x: 1172, y: 0, ancho: 586, alto: 300 },
+      { x: 1758, y: 0, ancho: 586, alto: 300 },
+      { x: 2344, y: 0, ancho: 586, alto: 300 },
+      { x: 2930, y: 0, ancho: 586, alto: 300 },
+      { x: 3516, y: 0, ancho: 586, alto: 300 },
+      { x: 0, y: 300, ancho: 586, alto: 300 },
+      { x: 586, y: 300, ancho: 586, alto: 300 },
+      { x: 1172, y: 300, ancho: 586, alto: 300 },
+      { x: 1758, y: 300, ancho: 586, alto: 300 },
+      { x: 2344, y: 300, ancho: 586, alto: 300 },
+      { x: 2930, y: 300, ancho: 586, alto: 300 },
+      { x: 3516, y: 300, ancho: 586, alto: 300 },
+      { x: 0, y: 600, ancho: 586, alto: 300 },
+      { x: 586, y: 600, ancho: 586, alto: 300 },
+      { x: 1172, y: 600, ancho: 586, alto: 300 },
+      { x: 1758, y: 600, ancho: 586, alto: 300 },
+      { x: 2344, y: 600, ancho: 586, alto: 300 },
+      { x: 2930, y: 600, ancho: 586, alto: 300 },
+      { x: 3516, y: 600, ancho: 586, alto: 300 },
+      { x: 0, y: 900, ancho: 586, alto: 300 },
+      { x: 586, y: 900, ancho: 586, alto: 300 },
+      { x: 1172, y: 900, ancho: 586, alto: 300 },
+      { x: 1758, y: 900, ancho: 586, alto: 300 },
+      { x: 2344, y: 900, ancho: 586, alto: 300 },
+      { x: 2930, y: 900, ancho: 586, alto: 300 },
+      { x: 3516, y: 900, ancho: 586, alto: 300 },
+    ],
+  },
+
+  floresBarbaras: {
+    fuente: '/floresBarbaras_4x4-4665x2200_1.webp',
+    ancho: 4665,
+    alto: 2200,
+    columnas: 4,
+    filas: 4,
+    invertido: true,
+    fotogramas: [
+      { x: 0, y: 0, ancho: 1166, alto: 550 },
+      { x: 1166, y: 0, ancho: 1166, alto: 550 },
+      { x: 2332, y: 0, ancho: 1166, alto: 550 },
+      { x: 3498, y: 0, ancho: 1166, alto: 550 },
+      { x: 0, y: 550, ancho: 1166, alto: 550 },
+      { x: 1166, y: 550, ancho: 1166, alto: 550 },
+      { x: 2332, y: 550, ancho: 1166, alto: 550 },
+      { x: 3498, y: 550, ancho: 1166, alto: 550 },
+      { x: 0, y: 1100, ancho: 1166, alto: 550 },
+      { x: 1166, y: 1100, ancho: 1166, alto: 550 },
+      { x: 2332, y: 1100, ancho: 1166, alto: 550 },
+      { x: 3498, y: 1100, ancho: 1166, alto: 550 },
+      { x: 0, y: 1650, ancho: 1166, alto: 550 },
+      { x: 1166, y: 1650, ancho: 1166, alto: 550 },
+      { x: 2332, y: 1650, ancho: 1166, alto: 550 },
+      { x: 3498, y: 1650, ancho: 1166, alto: 550 },
+    ],
+  },
+
+  iguanas: {
+    fuente: '/iguanas_3x3-4250x1200_1.webp',
+    ancho: 4250,
+    alto: 1200,
+    columnas: 3,
+    filas: 3,
+    fotogramas: [
+      { x: 0, y: 0, ancho: 1416, alto: 400 },
+      { x: 1416, y: 0, ancho: 1416, alto: 400 },
+      { x: 2832, y: 0, ancho: 1416, alto: 400 },
+      { x: 0, y: 400, ancho: 1416, alto: 400 },
+      { x: 1416, y: 400, ancho: 1416, alto: 400 },
+      { x: 2832, y: 400, ancho: 1416, alto: 400 },
+      { x: 0, y: 800, ancho: 1416, alto: 400 },
+      { x: 1416, y: 800, ancho: 1416, alto: 400 },
+      { x: 2832, y: 800, ancho: 1416, alto: 400 },
+    ],
+  },
+
+  pajaroVolador: {
+    fuente: '/pajaroVolador_1x19-800x5978_1.webp',
+    ancho: 800,
+    alto: 5978,
+    columnas: 1,
+    filas: 19,
+    invertido: true,
+    fotogramas: [
+      { x: 0, y: 0, ancho: 800, alto: 314 },
+      { x: 0, y: 314, ancho: 800, alto: 314 },
+      { x: 0, y: 628, ancho: 800, alto: 314 },
+      { x: 0, y: 942, ancho: 800, alto: 314 },
+      { x: 0, y: 1256, ancho: 800, alto: 314 },
+      { x: 0, y: 1570, ancho: 800, alto: 314 },
+      { x: 0, y: 1884, ancho: 800, alto: 314 },
+      { x: 0, y: 2198, ancho: 800, alto: 314 },
+      { x: 0, y: 2512, ancho: 800, alto: 314 },
+      { x: 0, y: 2826, ancho: 800, alto: 314 },
+      { x: 0, y: 3140, ancho: 800, alto: 314 },
+      { x: 0, y: 3454, ancho: 800, alto: 314 },
+      { x: 0, y: 3768, ancho: 800, alto: 314 },
+      { x: 0, y: 4082, ancho: 800, alto: 314 },
+      { x: 0, y: 4396, ancho: 800, alto: 314 },
+      { x: 0, y: 4710, ancho: 800, alto: 314 },
+      { x: 0, y: 5024, ancho: 800, alto: 314 },
+      { x: 0, y: 5338, ancho: 800, alto: 314 },
+      { x: 0, y: 5652, ancho: 800, alto: 314 },
+    ],
+  },
+
+  flores: {
+    fuente: '/flores_7x1-2313x400_1.webp',
+    ancho: 2313,
+    alto: 400,
+    columnas: 7,
+    filas: 1,
+    fotogramas: [
+      { x: 0, y: 0, ancho: 330, alto: 400 },
+      { x: 330, y: 0, ancho: 330, alto: 400 },
+      { x: 660, y: 0, ancho: 330, alto: 400 },
+      { x: 990, y: 0, ancho: 330, alto: 400 },
+      { x: 1320, y: 0, ancho: 330, alto: 400 },
+      { x: 1650, y: 0, ancho: 330, alto: 400 },
+      { x: 1980, y: 0, ancho: 330, alto: 400 },
+    ],
+  },
+
+  arbolLloron: {
+    fuente: '/arbolLloron_7x3-4060x1600_1.webp',
+    ancho: 4060,
+    alto: 1600,
+    columnas: 7,
+    filas: 3,
+    invertido: true,
+    fotogramas: [
+      { x: 0, y: 0, ancho: 580, alto: 533 },
+      { x: 580, y: 0, ancho: 580, alto: 533 },
+      { x: 1160, y: 0, ancho: 580, alto: 533 },
+      { x: 1740, y: 0, ancho: 580, alto: 533 },
+      { x: 2320, y: 0, ancho: 580, alto: 533 },
+      { x: 2900, y: 0, ancho: 580, alto: 533 },
+      { x: 3480, y: 0, ancho: 580, alto: 533 },
+      { x: 0, y: 533, ancho: 580, alto: 533 },
+      { x: 580, y: 533, ancho: 580, alto: 533 },
+      { x: 1160, y: 533, ancho: 580, alto: 533 },
+      { x: 1740, y: 533, ancho: 580, alto: 533 },
+      { x: 2320, y: 533, ancho: 580, alto: 533 },
+      { x: 2900, y: 533, ancho: 580, alto: 533 },
+      { x: 3480, y: 533, ancho: 580, alto: 533 },
+      { x: 0, y: 1066, ancho: 580, alto: 533 },
+      { x: 580, y: 1066, ancho: 580, alto: 533 },
+      { x: 1160, y: 1066, ancho: 580, alto: 533 },
+      { x: 1740, y: 1066, ancho: 580, alto: 533 },
+      { x: 2320, y: 1066, ancho: 580, alto: 533 },
+      { x: 2900, y: 1066, ancho: 580, alto: 533 },
+      { x: 3480, y: 1066, ancho: 580, alto: 533 },
+    ],
+  },
+
+  hueco1: {
+    fuente: '/hueco1_3x1-2292x400_1.webp',
+    ancho: 2292,
+    alto: 400,
+    columnas: 3,
+    filas: 1,
+    fotogramas: [
+      { x: 0, y: 0, ancho: 764, alto: 400 },
+      { x: 764, y: 0, ancho: 764, alto: 400 },
+      { x: 1528, y: 0, ancho: 764, alto: 400 },
+    ],
+  },
 };
 interface IDatosParaPixi extends ISpritesheetData {
   fuente: string;
@@ -229,6 +480,10 @@ for (const llave in datos) {
     };
     datosFormatoPixi[llave].animations.anim.push(`${llave}${i}`);
   });
+
+  if (imagen.invertido) {
+    datosFormatoPixi[llave].animations.anim.reverse();
+  }
 }
 
 export default datosFormatoPixi;

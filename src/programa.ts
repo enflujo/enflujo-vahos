@@ -7,15 +7,15 @@ import datos from './datos';
  */
 const animaciones: { [nombre: string]: AnimatedSprite } = {};
 const texturas: { [nombre: string]: Spritesheet } = {};
-
+const dims = { ancho: 0, alto: 0, pasoX: 0, pasoY: 0 };
+console.log(datos);
 const aplicacion = new Application({
-  backgroundColor: 0xffffff,
+  backgroundColor: 0xffffe6,
+  // backgroundColor: 0xffffff,
   powerPreference: 'high-performance',
   autoStart: false,
 });
 document.body.appendChild(aplicacion.view);
-
-console.log(datos);
 
 async function crearTextura(nombre: string) {
   const datosTextura = datos[nombre];
@@ -31,43 +31,274 @@ function crearSecuencia(nombre: string) {
 }
 
 async function inicio() {
+  actualizarDimensiones();
+  await crearTextura('anaSol');
   await crearTextura('fondo1');
+  await crearTextura('fondo2');
+  await crearTextura('fondo3');
   await crearTextura('montañaPajaro');
+  await crearTextura('fondo4');
+  await crearTextura('arbolSol');
+  await crearTextura('giraSol');
+  await crearTextura('pasto');
+  await crearTextura('montañaArboles');
+  await crearTextura('lampara');
+  await crearTextura('floresExplosivas');
+  await crearTextura('pescadini');
+  await crearTextura('monstruoMar');
+  await crearTextura('floresBarbaras');
+  await crearTextura('iguanas');
+  await crearTextura('pajaroVolador');
+  await crearTextura('flores');
+  await crearTextura('arbolLloron');
+  await crearTextura('hueco1');
 
   const fondo1 = crearSecuencia('fondo1');
-  // const escupePajaro = crearSecuencia('montañaPajaro');
-  if (!fondo1) return;
-  const proporcion = { x: 1, y: 1 };
-  console.log(fondo1.texture.orig.width, window.innerWidth / fondo1.texture.orig.width);
-
   fondo1.animationSpeed = 0.1666;
-  fondo1.scale.set(window.innerHeight / fondo1.texture.orig.height);
-  // fondo1.blendMode = BLEND_MODES.ADD;
-  aplicacion.stage.addChild(fondo1);
-
-  for (let i = 0; i < 20; i++) {
-    const clonsito = crearSecuencia('montañaPajaro');
-    clonsito.animationSpeed = 0.2;
-    console.log(Math.random() * aplicacion.screen.width - 500);
-    clonsito.x = Math.random() * aplicacion.screen.width - 500;
-    clonsito.y = Math.random() * aplicacion.screen.height - 500;
-    // clonsito.scale.set(Math.random());
-    clonsito.blendMode = BLEND_MODES.MULTIPLY;
-
-    clonsito?.gotoAndPlay((Math.random() * 21) | 0);
-    aplicacion.stage.addChild(clonsito);
-  }
-
+  // fondo1.anchor.set(0.5);
+  fondo1?.scale.set(0.3);
+  fondo1.y = dims.pasoY * 2;
+  // fondo1.scale.set(window.innerHeight / fondo1.texture.orig.height);
   fondo1.play();
+  fondo1.blendMode = BLEND_MODES.MULTIPLY;
+  aplicacion.stage.addChild(fondo1);
+  //
+
+  const fondo2 = crearSecuencia('fondo2');
+  fondo2.animationSpeed = 0.1666;
+  fondo2?.scale.set(0.3);
+  fondo2?.anchor.set(-1, -1);
+  fondo2?.play();
+  fondo2.blendMode = BLEND_MODES.MULTIPLY;
+  aplicacion.stage.addChild(fondo2);
+
+  const fondo3 = crearSecuencia('fondo3');
+  fondo3.animationSpeed = 0.1666;
+  fondo3?.scale.set(0.3);
+  fondo3.position.set(-dims.pasoX * 0.5, dims.pasoY * 6);
+  fondo3.rotation = 0.2;
+  fondo3?.play();
+  fondo3.blendMode = BLEND_MODES.MULTIPLY;
+  aplicacion.stage.addChild(fondo3);
+
+  const escupePajaro = crearSecuencia('montañaPajaro');
+  escupePajaro.animationSpeed = 0.1666;
+  escupePajaro?.scale.set(0.2);
+  escupePajaro.position.set(dims.pasoX * 4, dims.pasoY * 6.8);
+  escupePajaro?.play();
+  escupePajaro.alpha = 0.7;
+  escupePajaro.blendMode = BLEND_MODES.MULTIPLY;
+  aplicacion.stage.addChild(escupePajaro);
+
+  const fondo4 = crearSecuencia('fondo4');
+  fondo4.animationSpeed = 0.1666;
+  fondo4?.scale.set(0.2);
+  fondo4.position.set(dims.pasoX * 4, dims.pasoY * 6.8);
+  fondo4?.play();
+  fondo4.blendMode = BLEND_MODES.MULTIPLY;
+  aplicacion.stage.addChild(fondo4);
+
+  const arbolSol = crearSecuencia('arbolSol');
+  arbolSol.animationSpeed = 0.1666;
+  arbolSol?.scale.set(0.1);
+  arbolSol.position.set(dims.pasoX * 1, dims.pasoY * 2);
+  arbolSol?.play();
+  arbolSol.blendMode = BLEND_MODES.MULTIPLY;
+  aplicacion.stage.addChild(arbolSol);
+
+  const giraSol = crearSecuencia('giraSol');
+  giraSol.animationSpeed = 0.1666;
+  giraSol?.scale.set(0.25);
+  giraSol.position.set(dims.pasoX * 9, dims.pasoY * 3);
+  giraSol?.play();
+  giraSol.blendMode = BLEND_MODES.MULTIPLY;
+  aplicacion.stage.addChild(giraSol);
+
+  const pasto = crearSecuencia('pasto');
+  pasto.animationSpeed = 0.1;
+  pasto?.scale.set(0.25);
+  pasto.position.set(dims.pasoX * 9.2, dims.pasoY * 9.8);
+  // pasto.anchor.set(-1, -3);
+  pasto.rotation = -0.35;
+  pasto?.play();
+  pasto.blendMode = BLEND_MODES.MULTIPLY;
+  aplicacion.stage.addChild(pasto);
+
+  const montañaArboles = crearSecuencia('montañaArboles');
+  montañaArboles.animationSpeed = 0.1;
+  montañaArboles?.scale.set(0.25);
+  montañaArboles.position.set(dims.pasoX * 2, dims.pasoY * 8);
+  montañaArboles?.play();
+  montañaArboles.blendMode = BLEND_MODES.MULTIPLY;
+  aplicacion.stage.addChild(montañaArboles);
+
+  const lampara = crearSecuencia('lampara');
+  lampara.animationSpeed = 0.1;
+  lampara?.scale.set(0.25);
+  lampara.position.set(dims.pasoX * 6, dims.pasoY * 4);
+  lampara?.play();
+  lampara.blendMode = BLEND_MODES.MULTIPLY;
+  aplicacion.stage.addChild(lampara);
+
+  const floresExplosivas = crearSecuencia('floresExplosivas');
+  floresExplosivas.animationSpeed = 0.1;
+  floresExplosivas?.scale.set(0.25);
+  floresExplosivas.position.set(dims.pasoX * 6, dims.pasoY * 4);
+  floresExplosivas?.play();
+  floresExplosivas.blendMode = BLEND_MODES.MULTIPLY;
+  aplicacion.stage.addChild(floresExplosivas);
+
+  const pescadini = crearSecuencia('pescadini');
+  pescadini.animationSpeed = 0.1;
+  pescadini?.scale.set(0.3);
+  pescadini.position.set(dims.pasoX * 3, dims.pasoY * 1);
+  pescadini?.play();
+  pescadini.blendMode = BLEND_MODES.MULTIPLY;
+  aplicacion.stage.addChild(pescadini);
+
+  const monstruoMar = crearSecuencia('monstruoMar');
+  monstruoMar.animationSpeed = 0.1;
+  monstruoMar?.scale.set(0.4);
+  monstruoMar.position.set(dims.pasoX * 5, dims.pasoY * 5.8);
+  monstruoMar?.play();
+  monstruoMar.blendMode = BLEND_MODES.MULTIPLY;
+  aplicacion.stage.addChild(monstruoMar);
+
+  const floresBarbaras = crearSecuencia('floresBarbaras');
+  floresBarbaras.animationSpeed = 0.1666;
+  floresBarbaras?.scale.set(0.3);
+  floresBarbaras.position.set(dims.pasoX * 1.5, dims.pasoY * 4.5);
+  floresBarbaras?.play();
+  floresBarbaras.blendMode = BLEND_MODES.MULTIPLY;
+  aplicacion.stage.addChild(floresBarbaras);
+
+  const iguanas = crearSecuencia('iguanas');
+  iguanas.animationSpeed = 0.1666;
+  iguanas?.scale.set(0.3);
+  iguanas.position.set(dims.pasoX * 7, dims.pasoY * 2);
+  iguanas?.play();
+  iguanas.blendMode = BLEND_MODES.MULTIPLY;
+  aplicacion.stage.addChild(iguanas);
+
+  const pajaroVolador = crearSecuencia('pajaroVolador');
+  pajaroVolador.animationSpeed = 0.1666;
+  pajaroVolador?.scale.set(0.3);
+  pajaroVolador.position.set(dims.pasoX * 1.4, dims.pasoY * 0.5);
+  pajaroVolador?.play();
+  pajaroVolador.blendMode = BLEND_MODES.MULTIPLY;
+  aplicacion.stage.addChild(pajaroVolador);
+
+  const flores = crearSecuencia('flores');
+  flores.animationSpeed = 0.1666;
+  flores?.scale.set(0.18);
+  flores.position.set(dims.pasoX * 6.5, dims.pasoY * 3.6);
+  flores?.play();
+  flores.blendMode = BLEND_MODES.MULTIPLY;
+  aplicacion.stage.addChild(flores);
+
+  const arbolLloron = crearSecuencia('arbolLloron');
+  arbolLloron.animationSpeed = 0.1666;
+  arbolLloron?.scale.set(0.3);
+  arbolLloron.position.set(dims.pasoX * 2.8, dims.pasoY * 6);
+  arbolLloron?.play();
+  arbolLloron.blendMode = BLEND_MODES.MULTIPLY;
+  aplicacion.stage.addChild(arbolLloron);
+
+  const hueco1 = crearSecuencia('hueco1');
+  hueco1.animationSpeed = 0.1666;
+  hueco1?.scale.set(0.2);
+  hueco1.position.set(dims.pasoX * 9, dims.pasoY * 8);
+  hueco1?.play();
+  hueco1.blendMode = BLEND_MODES.MULTIPLY;
+  aplicacion.stage.addChild(hueco1);
+
+  // const fondo1 = crearSecuencia('fondo1');
+  // // const escupePajaro = crearSecuencia('montañaPajaro');
+  // if (!fondo1) return;
+  // const proporcion = { x: 1, y: 1 };
+
+  //
+  //
+  // // fondo1.blendMode = BLEND_MODES.ADD;
+  // aplicacion.stage.addChild(fondo1);
+
+  // for (let i = 0; i < 20; i++) {
+  //   const clonsito = crearSecuencia('montañaPajaro');
+  //   clonsito.animationSpeed = 0.2;
+  //   clonsito.x = Math.random() * aplicacion.screen.width - 500;
+  //   clonsito.y = Math.random() * aplicacion.screen.height - 500;
+  //   // clonsito.scale.set(Math.random());
+  //   clonsito.blendMode = BLEND_MODES.MULTIPLY;
+
+  //   clonsito?.gotoAndPlay((Math.random() * 21) | 0);
+  //   aplicacion.stage.addChild(clonsito);
+  // }
+
+  //
   // escupePajaro.play();
 
-  actualizarDimensiones();
+  const sol = crearSecuencia('anaSol');
+  let escalaSol = 0.25;
+  console.log(sol);
+  sol.animationSpeed = 0.2;
+  sol.scale.set(escalaSol);
+  sol.anchor.set(0.5);
+  sol.x = dims.pasoX * 8;
+  sol.y = dims.pasoY * 8;
+  sol.blendMode = BLEND_MODES.MULTIPLY;
+  sol?.play();
+  //
+  aplicacion.stage.addChild(sol);
 
   aplicacion.start();
+
+  let tick = 0;
+  aplicacion.ticker.add(() => {
+    if (sol.y > dims.pasoY * 2) {
+      sol.y -= 0.12;
+      sol.scale.set(escalaSol);
+      // escalaSol += 0.0001;
+      // console.log(escalaSol);
+    } else {
+      // sol.rotation += 0.09;
+    }
+    // // iterate through the sprites and update their position
+    // for (let i = 0; i < maggots.length; i++) {
+    //     const dude = maggots[i];
+    //     dude.scale.y = 0.95 + Math.sin(tick + dude.offset) * 0.05;
+    //     dude.direction += dude.turningSpeed * 0.01;
+    //     dude.x += Math.sin(dude.direction) * (dude.speed * dude.scale.y);
+    //     dude.y += Math.cos(dude.direction) * (dude.speed * dude.scale.y);
+    //     dude.rotation = -dude.direction + Math.PI;
+
+    //     // wrap the maggots
+    //     if (dude.x < dudeBounds.x) {
+    //         dude.x += dudeBounds.width;
+    //     } else if (dude.x > dudeBounds.x + dudeBounds.width) {
+    //         dude.x -= dudeBounds.width;
+    //     }
+
+    //     if (dude.y < dudeBounds.y) {
+    //         dude.y += dudeBounds.height;
+    //     } else if (dude.y > dudeBounds.y + dudeBounds.height) {
+    //         dude.y -= dudeBounds.height;
+    //     }
+    // }
+
+    // increment the ticker
+    tick += 0.1;
+  });
 }
 
 function actualizarDimensiones() {
-  aplicacion.renderer.resize(window.innerWidth, window.innerHeight);
+  const ancho = window.innerWidth;
+  const alto = window.innerHeight;
+  aplicacion.renderer.resize(ancho, alto);
+  dims.ancho = ancho;
+  dims.alto = alto;
+  dims.pasoX = ancho / 11;
+  dims.pasoY = alto / 11;
+  console.log(dims);
 }
 
 inicio();
