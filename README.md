@@ -6,7 +6,9 @@
 
 Animación modular para visuales en vivo diurante el concierto de Ana María Vahos en el Festival Estereo Picnic 2023.
 
-[Ciclo animación](./documentacion/a5722238-678a-423e-a97b-25c75eacdd56.webm)
+<video autoplay muted controls loop>
+  <source src="./documentacion/a5722238-678a-423e-a97b-25c75eacdd56.webm" type="video/webm" />
+</video>
 
 ## Equipo
 
