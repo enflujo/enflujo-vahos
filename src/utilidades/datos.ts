@@ -60,7 +60,7 @@ const datos: IDatosTitiritero = {
     ],
   },
   montañaPajaro: {
-    fuente: '/montañaPajaro_3x7-6204x2520_1.webp',
+    fuente: '/montañaPajaro_3x7-6204x2520_1_CC.webp',
     ancho: 6204,
     alto: 2520,
     columnas: 3,
@@ -202,7 +202,7 @@ const datos: IDatosTitiritero = {
   },
 
   lampara: {
-    fuente: '/lampara_3x3-687x800_1.webp',
+    fuente: '/lampara_3x3-687x800_1_CC.webp',
     ancho: 687,
     alto: 800,
     columnas: 3,
