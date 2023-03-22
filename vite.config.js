@@ -4,6 +4,7 @@ export default defineConfig({
   // base: '/',
   server: {
     port: 3000,
+    host: true,
   },
   publicDir: 'estaticos',
   build: {
