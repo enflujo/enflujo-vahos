@@ -122,6 +122,7 @@ const datos: IDatosTitiritero = {
     columnas: 7,
     filas: 2,
     invertido: true,
+    pingPong: true,
     fotogramas: [
       { x: 0, y: 0, ancho: 1131, alto: 1000 },
       { x: 1131, y: 0, ancho: 1131, alto: 1000 },
@@ -161,6 +162,7 @@ const datos: IDatosTitiritero = {
     filas: 3,
     invertido: true,
     pingPong: true,
+    velocidad: 0.1,
     fotogramas: [
       { x: 0, y: 0, ancho: 1119, alto: 666 },
       { x: 1119, y: 0, ancho: 1119, alto: 666 },
@@ -187,6 +189,7 @@ const datos: IDatosTitiritero = {
     columnas: 5,
     filas: 2,
     invertido: true,
+    velocidad: 0.12,
     fotogramas: [
       { x: 0, y: 0, ancho: 630, alto: 450 },
       { x: 630, y: 0, ancho: 630, alto: 450 },
@@ -207,6 +210,7 @@ const datos: IDatosTitiritero = {
     alto: 800,
     columnas: 3,
     filas: 3,
+    velocidad: 0.1,
     fotogramas: [
       { x: 0, y: 0, ancho: 229, alto: 266 },
       { x: 229, y: 0, ancho: 229, alto: 266 },
@@ -226,6 +230,7 @@ const datos: IDatosTitiritero = {
     alto: 1200,
     columnas: 11,
     filas: 2,
+    velocidad: 0.1,
     fotogramas: [
       { x: 0, y: 0, ancho: 779, alto: 600 },
       { x: 779, y: 0, ancho: 779, alto: 600 },
@@ -284,6 +289,7 @@ const datos: IDatosTitiritero = {
     columnas: 5,
     filas: 2,
     invertido: true,
+    velocidad: 0.1,
     fotogramas: [
       { x: 0, y: 0, ancho: 425, alto: 750 },
       { x: 425, y: 0, ancho: 425, alto: 750 },
@@ -305,6 +311,7 @@ const datos: IDatosTitiritero = {
     columnas: 7,
     filas: 4,
     invertido: true,
+    velocidad: 0.1,
     fotogramas: [
       { x: 0, y: 0, ancho: 586, alto: 300 },
       { x: 586, y: 0, ancho: 586, alto: 300 },
@@ -364,8 +371,8 @@ const datos: IDatosTitiritero = {
     ],
   },
 
-  iguanas: {
-    fuente: '/iguanas_3x3-4250x1200_1_CC.webp',
+  anto: {
+    fuente: '/anto_3x3-4250x1200_1_CC.webp',
     ancho: 4250,
     alto: 1200,
     columnas: 3,
@@ -390,6 +397,7 @@ const datos: IDatosTitiritero = {
     columnas: 1,
     filas: 19,
     invertido: true,
+    velocidad: 0.14,
     fotogramas: [
       { x: 0, y: 0, ancho: 800, alto: 314 },
       { x: 0, y: 314, ancho: 800, alto: 314 },
@@ -419,6 +427,7 @@ const datos: IDatosTitiritero = {
     alto: 400,
     columnas: 7,
     filas: 1,
+    velocidad: 0.1,
     fotogramas: [
       { x: 0, y: 0, ancho: 330, alto: 400 },
       { x: 330, y: 0, ancho: 330, alto: 400 },
@@ -640,13 +649,14 @@ const datos: IDatosTitiritero = {
     ],
   },
 
-  pajaroBailarin: {
-    fuente: '/pajaroBailarin_6x4-4251x2000_1_CC.webp',
+  diego: {
+    fuente: '/diego_6x4-4251x2000_1_CC.webp',
     ancho: 4251,
     alto: 2000,
     columnas: 6,
     filas: 4,
     invertido: true,
+    velocidad: 0.12,
     fotogramas: [
       { x: 0, y: 0, ancho: 708, alto: 500 },
       { x: 708, y: 0, ancho: 708, alto: 500 },
@@ -721,6 +731,7 @@ const datos: IDatosTitiritero = {
     filas: 3,
     invertido: true,
     pingPong: true,
+    velocidad: 0.12,
     fotogramas: [
       { x: 0, y: 0, ancho: 1026, alto: 533 },
       { x: 1026, y: 0, ancho: 1026, alto: 533 },
@@ -800,6 +811,7 @@ const datos: IDatosTitiritero = {
     alto: 1300,
     columnas: 6,
     filas: 3,
+    velocidad: 0.111,
     fotogramas: [
       { x: 0, y: 0, ancho: 965, alto: 433 },
       { x: 965, y: 0, ancho: 965, alto: 433 },
@@ -842,6 +854,7 @@ const datos: IDatosTitiritero = {
     columnas: 1,
     filas: 23,
     invertido: true,
+    velocidad: 0.116,
     fotogramas: [
       { x: 0, y: 0, ancho: 900, alto: 446 },
       { x: 0, y: 446, ancho: 900, alto: 446 },
@@ -889,6 +902,7 @@ const datos: IDatosTitiritero = {
     columnas: 17,
     filas: 1,
     invertido: true,
+    velocidad: 0.112,
     fotogramas: [
       { x: 0, y: 0, ancho: 516, alto: 700 },
       { x: 516, y: 0, ancho: 516, alto: 700 },
@@ -972,6 +986,7 @@ const datos: IDatosTitiritero = {
     columnas: 4,
     filas: 3,
     invertido: true,
+    velocidad: 0.111,
     fotogramas: [
       { x: 0, y: 0, ancho: 700, alto: 466 },
       { x: 700, y: 0, ancho: 700, alto: 466 },
@@ -995,6 +1010,7 @@ const datos: IDatosTitiritero = {
     columnas: 11,
     filas: 1,
     invertido: true,
+    velocidad: 0.08,
     fotogramas: [
       { x: 0, y: 0, ancho: 771, alto: 800 },
       { x: 771, y: 0, ancho: 771, alto: 800 },
@@ -1017,6 +1033,7 @@ const datos: IDatosTitiritero = {
     columnas: 5,
     filas: 3,
     invertido: true,
+    velocidad: 0.106,
     fotogramas: [
       { x: 0, y: 0, ancho: 476, alto: 733 },
       { x: 476, y: 0, ancho: 476, alto: 733 },
@@ -1043,6 +1060,7 @@ const datos: IDatosTitiritero = {
     columnas: 3,
     filas: 3,
     pingPong: true,
+    velocidad: 0.111,
     fotogramas: [
       { x: 0, y: 0, ancho: 310, alto: 400 },
       { x: 310, y: 0, ancho: 310, alto: 400 },

@@ -3,6 +3,7 @@ import { IDatosParaPixi, IDatosPixi, IDatosTitiritero } from '../tipos';
 import datos from './datos';
 
 const texturas: { [nombre: string]: Spritesheet } = {};
+const secuencias: { [nombre: string]: AnimatedSprite } = {};
 let aplicacion: Application<ICanvas>;
 
 /**
@@ -19,6 +20,10 @@ export function crearAplicacion() {
   });
 
   return aplicacion;
+}
+
+export function llamarSecuencia(nombre: string) {
+  return secuencias[nombre];
 }
 
 /**
@@ -49,9 +54,19 @@ export function crearSecuencia(nombre: string, velocidad = 0.1666, reproducirInm
     secuencia.play();
   }
 
+  secuencia.alpha = 0;
+
   // Agregar esta nueva secuencia a la aplicación.
   aplicacion.stage.addChild(secuencia);
+
+  secuencias[nombre] = secuencia;
   return secuencia;
+}
+
+export function mostrarTodas() {
+  for (const nombre in secuencias) {
+    secuencias[nombre].alpha = 1;
+  }
 }
 
 /**
@@ -71,6 +86,7 @@ export async function cargarTexturas() {
     await textura.parse();
 
     texturas[nombre] = textura;
+    crearSecuencia(nombre, datosTextura.velocidad);
   }
 }
 
@@ -90,6 +106,7 @@ export function transformarDatosTitiriteroAPixi(datos: IDatosTitiritero): IDatos
       frames: {},
       meta: { scale: '1' },
       animations: { anim: imagen.orden ? imagen.orden : [] },
+      velocidad: imagen.velocidad ? imagen.velocidad : 0.166,
     };
 
     imagen.fotogramas.forEach((fotograma, i) => {

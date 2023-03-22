@@ -2,6 +2,7 @@ import type { ISpritesheetData } from 'pixijs';
 
 export interface IDatosParaPixi extends ISpritesheetData {
   fuente: string;
+  velocidad: number;
 }
 
 interface DatosFotograma {
@@ -22,6 +23,7 @@ export interface IDatosTitiritero {
     fotogramas: DatosFotograma[];
     orden?: string[];
     pingPong?: boolean;
+    velocidad?: number;
   };
 }
 
