@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite';
-import glsl from 'vite-plugin-glsl';
 
 export default defineConfig({
   // base: '/',
@@ -13,5 +12,4 @@ export default defineConfig({
     assetsDir: 'recursos',
     sourcemap: true,
   },
-  plugins: [glsl()],
 });
