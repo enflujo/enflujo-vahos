@@ -44,9 +44,10 @@ export default (dims: TDimensiones) => {
   pajarera2.position.set(dims.pasoX * 1.7, dims.pasoY * 7.2);
   pajarera2.alpha = 1;
 
-  return { animar };
+  return { animar, limpiar };
 
   function animar() {}
+  function limpiar() {}
 };
 
 // Los peces nadan

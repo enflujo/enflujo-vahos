@@ -55,9 +55,10 @@ export default (dims: TDimensiones) => {
   candela.alpha = 1;
   candela.rotation += 0.6;
 
-  return { animar };
+  return { animar, limpiar };
 
   function animar() {}
+  function limpiar() {}
 };
 
 // Pájaros vuelan

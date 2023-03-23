@@ -23,13 +23,12 @@ export default (dims: TDimensiones) => {
   const sol = llamarSecuencia('anaSol');
   sol.scale.set(0.6);
   sol.anchor.set(0.5);
-  // dims.pasoX * 5.7, dims.pasoY * 3.7
   sol.position.set(dims.pasoX * 5.7, dims.pasoY * 11);
   sol.alpha = 0;
 
   const pajaros = listaPajaros();
 
-  return { animar };
+  return { animar, limpiar };
 
   function animar() {
     if (sol.alpha < 1) {
@@ -54,6 +53,8 @@ export default (dims: TDimensiones) => {
       sol.y -= 0.25;
     }
   }
+
+  function limpiar() {}
 
   // Fade in de las montañas
   // El sol sube

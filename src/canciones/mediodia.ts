@@ -34,9 +34,10 @@ export default (dims: TDimensiones) => {
   arbolSeco3.position.set(dims.pasoX * 8.6, dims.pasoY * 7);
   arbolSeco3.alpha = 1;
 
-  return { animar };
+  return { animar, limpiar };
 
   function animar() {}
+  function limpiar() {}
 };
 
 // Pájaros pasan

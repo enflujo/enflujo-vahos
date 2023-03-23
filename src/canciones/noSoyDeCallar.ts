@@ -7,9 +7,10 @@ export default (dims: TDimensiones) => {
   escupePajaro.position.set(dims.pasoX * 2, dims.pasoY * 5);
   escupePajaro.alpha = 1;
 
-  return { animar };
+  return { animar, limpiar };
 
   function animar() {}
+  function limpiar() {}
 };
 
 // La montaña empieza pequeña en el fondo y se agranda hasta 1

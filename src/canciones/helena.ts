@@ -172,7 +172,8 @@ export default (dims: TDimensiones) => {
   floresExplosivas14.position.set(dims.pasoX * 9.1, dims.pasoY * 3.2);
   floresExplosivas14.alpha = 1;
 
-  return { animar };
+  return { animar, limpiar };
 
   function animar() {}
+  function limpiar() {}
 };

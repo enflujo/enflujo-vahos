@@ -33,8 +33,9 @@ export default (dims: TDimensiones) => {
   matorral3.position.set(dims.pasoX * 5.8, dims.pasoY * 4);
   matorral3.alpha = 1;
 
-  return { animar };
+  return { animar, limpiar };
 
   function animar() {}
+  function limpiar() {}
   // Pájaros arriba
 };

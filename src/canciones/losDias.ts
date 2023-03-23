@@ -1,6 +1,6 @@
-import { listaPajaros } from '../secuencias/pajaros';
+import { listaPajaros, reiniciarPajaro } from '../secuencias/pajaros';
 import { TDimensiones, ISecuenciaAnimacion } from '../tipos';
-import { aleatorioFraccion, aleatorioIntegral, llamarSecuencia } from '../utilidades/ayudas';
+import { aleatorioFraccion, aleatorioIntegral, llamarSecuencia, mostrarTodas } from '../utilidades/ayudas';
 
 export default (dims: TDimensiones) => {
   const fondo1 = llamarSecuencia('fondo1');
@@ -233,7 +233,10 @@ export default (dims: TDimensiones) => {
     }
   });
 
-  return { animar };
+  // TEMPORAL MIENTRAS SE COMPONE TRANSICIÓN
+  mostrarTodas();
+
+  return { animar, limpiar };
 
   function animar() {
     pajaros.forEach((pajaro) => {
@@ -241,13 +244,13 @@ export default (dims: TDimensiones) => {
       pajaro.y += pajaro.velocidad * pajaro.angulo * pajaro.direccion;
 
       if (!pajaro.invertido && pajaro.x > dims.ancho + 10) {
-        reiniciarPajaro(pajaro);
+        reiniciarPajaro(pajaro, dims);
       } else if (pajaro.invertido && pajaro.x < -10) {
-        reiniciarPajaro(pajaro);
+        reiniciarPajaro(pajaro, dims);
       }
 
       if (pajaro.y < 0 || pajaro.y > dims.alto) {
-        reiniciarPajaro(pajaro);
+        reiniciarPajaro(pajaro, dims);
       }
     });
 
@@ -256,16 +259,5 @@ export default (dims: TDimensiones) => {
     }
   }
 
-  function reiniciarPajaro(pajaro: ISecuenciaAnimacion) {
-    if (pajaro.invertido) {
-      pajaro.x = aleatorioIntegral(dims.ancho + 300, dims.ancho + 100);
-    } else {
-      pajaro.x = aleatorioIntegral(-300, -100);
-    }
-
-    pajaro.y = aleatorioFraccion(0, dims.alto);
-    const angulo = aleatorioFraccion(-0.35, 0.5);
-    pajaro.angulo = angulo;
-    pajaro.rotation = angulo;
-  }
+  function limpiar() {}
 };

@@ -22,9 +22,10 @@ export default (dims: TDimensiones) => {
   diego2.position.set(dims.pasoX * 3, dims.pasoY * 2);
   diego2.alpha = 1;
 
-  return { animar };
+  return { animar, limpiar };
 
   function animar() {}
+  function limpiar() {}
 };
 
 // Diegos caminan
