@@ -1,6 +1,7 @@
+import { TDimensiones } from '../tipos';
 import { llamarSecuencia } from '../utilidades/ayudas';
 
-export default (dims: { alto: number; ancho: number; pasoX: number; pasoY: number }) => {
+export default (dims: TDimensiones) => {
   const fondo5 = llamarSecuencia('fondo5');
   fondo5.scale.set(1.6);
   fondo5.position.set(dims.pasoX * 3.3, dims.pasoY * 5);

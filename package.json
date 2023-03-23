@@ -21,6 +21,7 @@
     "vite": "^4.2.1"
   },
   "dependencies": {
+    "@enflujo/alquimia": "^1.0.5",
     "meyda": "^5.6.0",
     "pixijs": "^7.1.4"
   }

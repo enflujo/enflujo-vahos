@@ -1,22 +1,24 @@
+import { AnimatedSprite } from 'pixijs';
+import { TDimensiones } from '../tipos';
 import { llamarSecuencia, crearSecuencia } from '../utilidades/ayudas';
 
-export default (dims: { alto: number; ancho: number; pasoX: number; pasoY: number }) => {
+export default (dims: TDimensiones) => {
   const mar = llamarSecuencia('mar');
   mar.scale.set(0.5, -0.5);
   mar.position.set(dims.pasoX * 0.1, dims.pasoY * 2);
   mar.alpha = 1;
 
-  const mar2 = crearSecuencia('mar');
+  const mar2 = crearSecuencia('mar') as AnimatedSprite;
   mar2.scale.set(0.5, -0.5);
   mar2.position.set(dims.pasoX * 2.6, dims.pasoY * 2);
   mar2.alpha = 1;
 
-  const mar3 = crearSecuencia('mar');
+  const mar3 = crearSecuencia('mar') as AnimatedSprite;
   mar3.scale.set(0.5, -0.5);
   mar3.position.set(dims.pasoX * 5.1, dims.pasoY * 2);
   mar3.alpha = 1;
 
-  const mar4 = crearSecuencia('mar');
+  const mar4 = crearSecuencia('mar') as AnimatedSprite;
   mar4.scale.set(0.5, -0.5);
   mar4.position.set(dims.pasoX * 7.5, dims.pasoY * 2);
   mar4.alpha = 1;

@@ -1,4 +1,4 @@
-import type { ISpritesheetData } from 'pixijs';
+import type { AnimatedSprite, ISpritesheetData } from 'pixijs';
 
 export interface IDatosParaPixi extends ISpritesheetData {
   fuente: string;
@@ -30,3 +30,15 @@ export interface IDatosTitiritero {
 export interface IDatosPixi {
   [nombre: string]: IDatosParaPixi;
 }
+
+export interface ISecuenciaAnimacion extends AnimatedSprite {
+  velocidad: number;
+  angulo: number;
+}
+
+export type TDimensiones = {
+  ancho: number;
+  alto: number;
+  pasoX: number;
+  pasoY: number;
+};

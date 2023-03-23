@@ -1,3 +1,4 @@
+import { TDimensiones } from '../tipos';
 import { llamarSecuencia } from '../utilidades/ayudas';
 
-export default (dims: { alto: number; ancho: number; pasoX: number; pasoY: number }) => {};
+export default (dims: TDimensiones) => {};

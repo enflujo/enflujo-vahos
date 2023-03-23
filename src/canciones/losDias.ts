@@ -1,6 +1,7 @@
-import { llamarSecuencia } from '../utilidades/ayudas';
+import { TDimensiones } from '../tipos';
+import { aleatorioFraccion, aleatorioIntegral, crearSecuencia, llamarSecuencia } from '../utilidades/ayudas';
 
-export default (dims: { alto: number; ancho: number; pasoX: number; pasoY: number }) => {
+export default (dims: TDimensiones) => {
   const fondo1 = llamarSecuencia('fondo1');
   fondo1.scale.set(0.3);
   fondo1.y = dims.pasoY * 2;
@@ -53,7 +54,7 @@ export default (dims: { alto: number; ancho: number; pasoX: number; pasoY: numbe
 
   const monstruoMar = llamarSecuencia('monstruoMar');
   monstruoMar.scale.set(0.4);
-  monstruoMar.position.set(dims.pasoX * 5, dims.pasoY * 5.8);
+  monstruoMar.position.set(dims.pasoX * 5.6, dims.pasoY * 5.8);
 
   const floresBarbaras = llamarSecuencia('floresBarbaras');
   floresBarbaras.scale.set(0.3);
@@ -202,9 +203,32 @@ export default (dims: { alto: number; ancho: number; pasoX: number; pasoY: numbe
   const sol = llamarSecuencia('anaSol');
   sol.scale.set(0.25);
   sol.anchor.set(0.5);
-  sol.position.set(dims.pasoX * 8, dims.pasoY * 8);
+  sol.position.set(dims.pasoX * 7.7, dims.pasoY * 8);
+
+  const pajaros = [llamarSecuencia('juanCamilo')];
+
+  for (let p = 0; p < 10; p++) {
+    const pajaro = crearSecuencia(`juanCamilo`, 0.5, false);
+    if (pajaro) {
+      pajaros.push(pajaro);
+    }
+  }
+
+  pajaros.forEach((pajaro) => {
+    pajaro.scale.set(aleatorioFraccion(0.8, 1.5));
+    pajaro.anchor.set(0.5);
+    pajaro.position.set(aleatorioFraccion(0, dims.ancho), aleatorioFraccion(0, dims.alto));
+    pajaro.alpha = 1;
+    pajaro.animationSpeed = aleatorioIntegral(0.111, 0.175);
+    pajaro.velocidad = aleatorioFraccion(1.5, 2.5);
+    const angulo = aleatorioFraccion(-0.35, 0.5);
+    pajaro.angulo = angulo;
+    pajaro.rotation = angulo;
+    pajaro.gotoAndPlay(aleatorioIntegral(0, 4));
+  });
 
   return {
     sol,
+    pajaros,
   };
 };
