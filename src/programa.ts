@@ -1,18 +1,24 @@
 import './scss/estilos.scss';
 import { esNumero } from '@enflujo/alquimia';
-import { AnimatedSprite } from 'pixijs';
+import { cargarTexturas, crearAplicacion, mostrarTodas } from './utilidades/ayudas';
+import { TAnimacionCancion, TDimensiones } from './tipos';
 
-import losDias from './canciones/losDias';
+import acapela from './canciones/acapela';
 import buenosDias from './canciones/buenosDias';
-
-import {
-  cargarTexturas,
-  crearAplicacion,
-  mostrarTodas,
-  aleatorioIntegral,
-  aleatorioFraccion,
-} from './utilidades/ayudas';
-import { TDimensiones } from './tipos';
+import stop from './canciones/stop';
+import ojazosNegros from './canciones/ojazosNegros';
+import cartografia from './canciones/cartografia';
+import miNina from './canciones/miNina';
+import desengano from './canciones/desengano';
+import noSoyDeCallar from './canciones/noSoyDeCallar';
+import mediodia from './canciones/mediodia';
+import helena from './canciones/helena';
+import bajoElCieloAzul from './canciones/bajoElCieloAzul';
+import delOtroLado from './canciones/delOtroLado';
+import camaraLenta from './canciones/camaraLenta';
+import losDias from './canciones/losDias';
+import fin from './canciones/fin';
+import { crearPajaros } from './secuencias/pajaros';
 
 /**
  * Dimensiones pantalla FEP: 3328 x 1248
@@ -37,32 +43,32 @@ const canciones = [
   'fin',
 ];
 
-const composiciones: { [nombreCancion: string]: (dims: TDimensiones) => any } = {
-  acapela: () => {},
+const composiciones: { [nombreCancion: string]: (dims: TDimensiones) => { animar: TAnimacionCancion } } = {
+  acapela: acapela,
   buenosDias: buenosDias,
-  stop: () => {},
-  ojazosNegros: () => {},
-  cartografia: () => {},
-  miNina: () => {},
-  desengano: () => {},
-  noSoyDeCallar: () => {},
-  medioDia: () => {},
-  helena: () => {},
-  bajoElCieloAzul: () => {},
-  delOtroLado: () => {},
-  camaraLenta: () => {},
-  losDias: () => {},
-  fin: () => {},
+  stop: stop,
+  ojazosNegros: ojazosNegros,
+  cartografia: cartografia,
+  miNina: miNina,
+  desengano: desengano,
+  noSoyDeCallar: noSoyDeCallar,
+  medioDia: mediodia,
+  helena: helena,
+  bajoElCieloAzul: bajoElCieloAzul,
+  delOtroLado: delOtroLado,
+  camaraLenta: camaraLenta,
+  losDias: losDias,
+  fin: fin,
 };
 
 const dims = { ancho: 0, alto: 0, pasoX: 0, pasoY: 0 };
 const aplicacion = crearAplicacion();
-let cancion = '';
+let cancion = 'losDias';
 let siguienteCancion = '';
 let enTransicion = false;
 const velocidadTransicion = 0.00311;
 const velocidadTransicionFin = 0.001;
-let elementosCancion: { [nombre: string]: AnimatedSprite };
+let secuenciaActual: { [nombre: string]: TAnimacionCancion };
 
 inicio();
 
@@ -77,8 +83,19 @@ function actualizarDimensiones() {
 }
 
 function cambiarCancion(nombre: string) {
-  siguienteCancion = nombre;
+  // siguienteCancion = nombre;
+  cancion = nombre;
+  esconderTodo();
+
+  secuenciaActual = composiciones[cancion](dims);
+  aplicacion.stage.alpha = 1;
   enTransicion = true;
+}
+
+function esconderTodo() {
+  aplicacion.stage.children.forEach((secuencia) => {
+    secuencia.y = dims.alto * 2;
+  });
 }
 
 async function inicio() {
@@ -86,87 +103,30 @@ async function inicio() {
   // Carga todas las texturas a la GPU.
   await cargarTexturas();
   aplicacion.start();
+  crearPajaros();
 
   if (cancion === 'losDias') {
-    elementosCancion = losDias(dims);
+    secuenciaActual = losDias(dims);
     mostrarTodas();
   }
 
-  function reiniciarPajaro(pajaro) {
-    pajaro.x = aleatorioIntegral(-300, -100);
-    pajaro.y = aleatorioFraccion(0, dims.alto);
-    const angulo = aleatorioFraccion(-0.35, 0.5);
-    pajaro.angulo = angulo;
-    pajaro.rotation = angulo;
-  }
-
   aplicacion.ticker.add(() => {
-    if (enTransicion) {
-      aplicacion.stage.alpha -= cancion === 'fin' ? velocidadTransicionFin : velocidadTransicion;
+    // if (enTransicion) {
+    //   aplicacion.stage.alpha -= cancion === 'fin' ? velocidadTransicionFin : velocidadTransicion;
 
-      if (aplicacion.stage.alpha <= 0) {
-        enTransicion = false;
-        console.log('listo para montar cancion', cancion);
-        cancion = siguienteCancion;
+    //   if (aplicacion.stage.alpha <= 0) {
+    //     enTransicion = false;
+    //     console.log('listo para montar cancion', cancion);
+    //     cancion = siguienteCancion;
 
-        aplicacion.stage.children.forEach((secuencia) => {
-          secuencia.x = -999;
-        });
+    // esconderTodo()
 
-        elementosCancion = composiciones[cancion](dims);
-        aplicacion.stage.alpha = 1;
-      }
-    }
+    //     secuenciaActual = composiciones[cancion](dims);
+    //     aplicacion.stage.alpha = 1;
+    //   }
+    // }
 
-    if (cancion === 'buenosDias') {
-      const { sol, fondo1, fondo2, fondo3 } = elementosCancion;
-
-      if (sol.alpha < 1) {
-        if (fondo1.alpha < 1) {
-          fondo1.alpha += 0.001;
-        }
-
-        if (fondo2.alpha < 1 && fondo1.alpha >= 0.45) {
-          fondo2.alpha += 0.001;
-        }
-
-        if (fondo3.alpha < 1 && fondo2.alpha >= 0.32) {
-          fondo3.alpha += 0.001;
-        }
-
-        if (fondo3.alpha >= 0.3) {
-          sol.alpha += 0.001;
-        }
-      }
-
-      if (fondo2.alpha >= 0.3 && sol.y > dims.pasoY * 3.7) {
-        sol.y -= 0.25;
-      }
-    } else if (cancion === 'losDias') {
-      const { sol, pajaros } = elementosCancion;
-
-      pajaros.forEach((pajaro: AnimatedSprite) => {
-        pajaro.x += pajaro.velocidad;
-        pajaro.y += pajaro.velocidad * pajaro.angulo;
-
-        if (pajaro.x > dims.ancho + 10) {
-          reiniciarPajaro(pajaro);
-        }
-
-        if (pajaro.y < 0 || pajaro.y > dims.alto) {
-          reiniciarPajaro(pajaro);
-        }
-      });
-
-      if (sol.y > dims.pasoY * 2) {
-        sol.y -= 0.12;
-
-        // escalaSol += 0.0001;
-        // console.log(escalaSol);
-      } else {
-        // sol.rotation += 0.09;
-      }
-    }
+    secuenciaActual.animar();
   });
 }
 
