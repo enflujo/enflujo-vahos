@@ -1,8 +1,22 @@
+import { listaPajaros, moverPajaro, ubicarPajaros } from '../secuencias/pajaros';
 import { TDimensiones } from '../tipos';
-import { llamarSecuencia } from '../utilidades/ayudas';
 
 export default (dims: TDimensiones) => {
-  return { animar };
+  const pajaros = listaPajaros();
 
-  function animar() {}
+  ubicarPajaros(dims);
+
+  return { animar, limpiar };
+
+  function animar() {
+    pajaros.forEach((pajaro) => {
+      if (pajaro.alpha < pajaro.opacidad) {
+        pajaro.alpha += 0.0006;
+      }
+
+      moverPajaro(pajaro, dims);
+    });
+  }
+
+  function limpiar() {}
 };

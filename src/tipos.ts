@@ -36,6 +36,7 @@ export interface ISecuenciaAnimacion extends AnimatedSprite {
   angulo: number;
   invertido: boolean;
   direccion: number;
+  opacidad: number;
 }
 
 export type TDimensiones = {

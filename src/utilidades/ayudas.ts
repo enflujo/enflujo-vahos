@@ -42,7 +42,12 @@ export function llamarSecuencia(nombre: string) {
  * @param reproducirInmediatamente (Opcional) Útil si se quiere iniciar más adelante o para empezar la animación en otro frame diferente al inicial con `gotoAndPlay()`
  * @returns Instancia de AnimatedSprite
  */
-export function crearSecuencia(nombre: string, velocidad = 0.1666, reproducirInmediatamente = true) {
+export function crearSecuencia(
+  nombre: string,
+  velocidad = 0.1666,
+  reproducirInmediatamente = true,
+  agregarALista = true
+) {
   if (!texturas[nombre]) return;
   const secuencia = new AnimatedSprite(texturas[nombre].animations.anim) as ISecuenciaAnimacion;
   // Como el efecto multiply en Photoshop.
@@ -63,7 +68,10 @@ export function crearSecuencia(nombre: string, velocidad = 0.1666, reproducirInm
   // Agregar esta nueva secuencia a la aplicación.
   aplicacion.stage.addChild(secuencia);
 
-  secuencias[nombre] = secuencia;
+  if (agregarALista) {
+    secuencias[nombre] = secuencia;
+  }
+
   return secuencia;
 }
 
