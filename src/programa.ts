@@ -43,7 +43,9 @@ const canciones = [
   'fin',
 ];
 
-const composiciones: { [nombreCancion: string]: (dims: TDimensiones) => { animar: TAnimacionCancion } } = {
+const composiciones: {
+  [nombreCancion: string]: (dims: TDimensiones) => { animar: TAnimacionCancion; limpiar: TAnimacionCancion };
+} = {
   acapela: acapela,
   buenosDias: buenosDias,
   stop: stop,
@@ -83,13 +85,18 @@ function actualizarDimensiones() {
 }
 
 function cambiarCancion(nombre: string) {
-  // siguienteCancion = nombre;
   cancion = nombre;
   esconderTodo();
 
+  if (secuenciaActual) {
+    secuenciaActual.limpiar();
+  }
+
   secuenciaActual = composiciones[cancion](dims);
   aplicacion.stage.alpha = 1;
-  enTransicion = true;
+
+  // siguienteCancion = nombre;
+  // enTransicion = true;
 }
 
 function esconderTodo() {
@@ -105,28 +112,30 @@ async function inicio() {
   aplicacion.start();
   crearPajaros();
 
-  if (cancion === 'losDias') {
-    secuenciaActual = losDias(dims);
-    mostrarTodas();
-  }
+  // if (cancion === 'losDias') {
+  //   secuenciaActual = losDias(dims);
+  //   mostrarTodas();
+  // }
 
   aplicacion.ticker.add(() => {
-    // if (enTransicion) {
-    //   aplicacion.stage.alpha -= cancion === 'fin' ? velocidadTransicionFin : velocidadTransicion;
+    if (enTransicion) {
+      aplicacion.stage.alpha -= cancion === 'fin' ? velocidadTransicionFin : velocidadTransicion;
 
-    //   if (aplicacion.stage.alpha <= 0) {
-    //     enTransicion = false;
-    //     console.log('listo para montar cancion', cancion);
-    //     cancion = siguienteCancion;
+      if (aplicacion.stage.alpha <= 0) {
+        enTransicion = false;
+        console.log('listo para montar cancion', cancion);
+        cancion = siguienteCancion;
 
-    // esconderTodo()
+        esconderTodo();
 
-    //     secuenciaActual = composiciones[cancion](dims);
-    //     aplicacion.stage.alpha = 1;
-    //   }
-    // }
+        secuenciaActual = composiciones[cancion](dims);
+        aplicacion.stage.alpha = 1;
+      }
+    }
 
-    secuenciaActual.animar();
+    if (secuenciaActual) {
+      secuenciaActual.animar();
+    }
   });
 }
 
