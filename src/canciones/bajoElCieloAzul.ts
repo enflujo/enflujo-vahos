@@ -55,14 +55,9 @@ export default (dims: TDimensiones) => {
   candela.alpha = 1;
   candela.rotation += 0.6;
 
-  return {
-    cafetera,
-    sillaLoop,
-    silla,
-    lampara,
-    reloj,
-    candela,
-  };
+  return { animar };
+
+  function animar() {}
 };
 
 // Pájaros vuelan

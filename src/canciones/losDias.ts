@@ -1,5 +1,6 @@
-import { TDimensiones } from '../tipos';
-import { aleatorioFraccion, aleatorioIntegral, crearSecuencia, llamarSecuencia } from '../utilidades/ayudas';
+import { listaPajaros } from '../secuencias/pajaros';
+import { TDimensiones, ISecuenciaAnimacion } from '../tipos';
+import { aleatorioFraccion, aleatorioIntegral, llamarSecuencia } from '../utilidades/ayudas';
 
 export default (dims: TDimensiones) => {
   const fondo1 = llamarSecuencia('fondo1');
@@ -205,30 +206,66 @@ export default (dims: TDimensiones) => {
   sol.anchor.set(0.5);
   sol.position.set(dims.pasoX * 7.7, dims.pasoY * 8);
 
-  const pajaros = [llamarSecuencia('juanCamilo')];
-
-  for (let p = 0; p < 10; p++) {
-    const pajaro = crearSecuencia(`juanCamilo`, 0.5, false);
-    if (pajaro) {
-      pajaros.push(pajaro);
-    }
-  }
+  const pajaros = listaPajaros();
 
   pajaros.forEach((pajaro) => {
-    pajaro.scale.set(aleatorioFraccion(0.8, 1.5));
-    pajaro.anchor.set(0.5);
-    pajaro.position.set(aleatorioFraccion(0, dims.ancho), aleatorioFraccion(0, dims.alto));
-    pajaro.alpha = 1;
-    pajaro.animationSpeed = aleatorioIntegral(0.111, 0.175);
+    pajaro.alpha = aleatorioFraccion(0.8, 0.95);
     pajaro.velocidad = aleatorioFraccion(1.5, 2.5);
     const angulo = aleatorioFraccion(-0.35, 0.5);
     pajaro.angulo = angulo;
     pajaro.rotation = angulo;
     pajaro.gotoAndPlay(aleatorioIntegral(0, 4));
+    pajaro.invertido = false;
+    pajaro.direccion = 1;
+
+    if (Math.random() > 0.5) {
+      pajaro.invertido = true;
+    }
+
+    if (pajaro.invertido) {
+      const escala = aleatorioFraccion(0.3, 1.5);
+      pajaro.scale.set(-escala, escala);
+      pajaro.position.set(aleatorioFraccion(0, dims.ancho), aleatorioFraccion(0, dims.alto));
+      pajaro.direccion = -1;
+    } else {
+      pajaro.scale.set(aleatorioFraccion(0.3, 1.5));
+      pajaro.position.set(aleatorioFraccion(0, dims.ancho), aleatorioFraccion(0, dims.alto));
+    }
   });
 
-  return {
-    sol,
-    pajaros,
-  };
+  return { animar };
+
+  function animar() {
+    pajaros.forEach((pajaro) => {
+      pajaro.x += pajaro.velocidad * pajaro.direccion;
+      pajaro.y += pajaro.velocidad * pajaro.angulo * pajaro.direccion;
+
+      if (!pajaro.invertido && pajaro.x > dims.ancho + 10) {
+        reiniciarPajaro(pajaro);
+      } else if (pajaro.invertido && pajaro.x < -10) {
+        reiniciarPajaro(pajaro);
+      }
+
+      if (pajaro.y < 0 || pajaro.y > dims.alto) {
+        reiniciarPajaro(pajaro);
+      }
+    });
+
+    if (sol.y > dims.pasoY * 2) {
+      sol.y -= 0.12;
+    }
+  }
+
+  function reiniciarPajaro(pajaro: ISecuenciaAnimacion) {
+    if (pajaro.invertido) {
+      pajaro.x = aleatorioIntegral(dims.ancho + 300, dims.ancho + 100);
+    } else {
+      pajaro.x = aleatorioIntegral(-300, -100);
+    }
+
+    pajaro.y = aleatorioFraccion(0, dims.alto);
+    const angulo = aleatorioFraccion(-0.35, 0.5);
+    pajaro.angulo = angulo;
+    pajaro.rotation = angulo;
+  }
 };

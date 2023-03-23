@@ -20,4 +20,7 @@ export default (dims: TDimensiones) => {
   sol.alpha = 1;
 
   // Pájaros
+  return { animar };
+
+  function animar() {}
 };

@@ -17,9 +17,9 @@ export default (dims: TDimensiones) => {
   monstruoMar.position.set(dims.pasoX * 1, dims.pasoY * 8);
   monstruoMar.alpha = 1;
 
-  return {
-    monstruoMar,
-  };
+  return { animar };
+
+  function animar() {}
 };
 
 // El monstruo se desplaza de izquierda a derecha

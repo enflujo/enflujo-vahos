@@ -13,9 +13,8 @@ export default (dims: TDimensiones) => {
   mesaPajaro.position.set(dims.pasoX * 4.8, dims.pasoY * 1.6);
   mesaPajaro.alpha = 1;
 
-  return {
-    mesaPajaro,
-  };
+  return { animar };
 
+  function animar() {}
   // Cada vez que se acaba una secuencia de la mesa cambiar posición de la mesa y hacer aparecer un pájaro en el fondo.
 };

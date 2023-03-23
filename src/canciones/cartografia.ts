@@ -22,5 +22,8 @@ export default (dims: TDimensiones) => {
   moscas.position.set(dims.pasoX * 5, dims.pasoY);
   moscas.alpha = 1;
 
+  return { animar };
+
+  function animar() {}
   // Pájaros
 };

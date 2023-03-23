@@ -1,3 +1,4 @@
+import { listaPajaros } from '../secuencias/pajaros';
 import { TDimensiones } from '../tipos';
 import { llamarSecuencia } from '../utilidades/ayudas';
 
@@ -26,12 +27,33 @@ export default (dims: TDimensiones) => {
   sol.position.set(dims.pasoX * 5.7, dims.pasoY * 11);
   sol.alpha = 0;
 
-  return {
-    sol,
-    fondo1,
-    fondo2,
-    fondo3,
-  };
+  const pajaros = listaPajaros();
+
+  return { animar };
+
+  function animar() {
+    if (sol.alpha < 1) {
+      if (fondo1.alpha < 1) {
+        fondo1.alpha += 0.001;
+      }
+
+      if (fondo2.alpha < 1 && fondo1.alpha >= 0.45) {
+        fondo2.alpha += 0.001;
+      }
+
+      if (fondo3.alpha < 1 && fondo2.alpha >= 0.32) {
+        fondo3.alpha += 0.001;
+      }
+
+      if (fondo3.alpha >= 0.3) {
+        sol.alpha += 0.001;
+      }
+    }
+
+    if (fondo2.alpha >= 0.3 && sol.y > dims.pasoY * 3.7) {
+      sol.y -= 0.25;
+    }
+  }
 
   // Fade in de las montañas
   // El sol sube
