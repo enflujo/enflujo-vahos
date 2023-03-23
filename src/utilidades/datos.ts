@@ -2,6 +2,20 @@ import type { IDatosTitiritero } from '../tipos';
 import { transformarDatosTitiriteroAPixi } from './ayudas';
 
 const datos: IDatosTitiritero = {
+  juanCamilo: {
+    fuente: '/juanCamilo_f5_w226_h50.png',
+    ancho: 226,
+    alto: 50,
+    columnas: 5,
+    filas: 1,
+    fotogramas: [
+      { x: 0, y: 0, ancho: 45.2, alto: 50 },
+      { x: 45.2, y: 0, ancho: 45.2, alto: 50 },
+      { x: 90.4, y: 0, ancho: 45.2, alto: 50 },
+      { x: 135.6, y: 0, ancho: 45.2, alto: 50 },
+      { x: 180.8, y: 0, ancho: 45.2, alto: 50 },
+    ],
+  },
   anaSol: {
     fuente: '/anaSol_5x1-3115x600_1_CC.webp',
     ancho: 3115,
@@ -305,7 +319,7 @@ const datos: IDatosTitiritero = {
   },
 
   monstruoMar: {
-    fuente: '/monstruoMar_7x4-4108x1200_1.webp',
+    fuente: '/monstruoMar_7x4-4108x1200_1_CC.webp',
     ancho: 4108,
     alto: 1200,
     columnas: 7,
@@ -345,7 +359,7 @@ const datos: IDatosTitiritero = {
   },
 
   floresBarbaras: {
-    fuente: '/floresBarbaras_4x4-4665x2200_1.webp',
+    fuente: '/floresBarbaras_4x4-4665x2200_1_CC.webp',
     ancho: 4665,
     alto: 2200,
     columnas: 4,
@@ -391,7 +405,7 @@ const datos: IDatosTitiritero = {
   },
 
   pezVolador: {
-    fuente: '/pezVolador_1x19-800x5978_1.webp',
+    fuente: '/pezVolador_1x19-800x5978_1_CC.webp',
     ancho: 800,
     alto: 5978,
     columnas: 1,
@@ -422,7 +436,7 @@ const datos: IDatosTitiritero = {
   },
 
   flores: {
-    fuente: '/flores_7x1-2313x400_1.webp',
+    fuente: '/flores_7x1-2313x400_1_CC.webp',
     ancho: 2313,
     alto: 400,
     columnas: 7,
@@ -472,7 +486,7 @@ const datos: IDatosTitiritero = {
   },
 
   hueco1: {
-    fuente: '/hueco1_3x1-2292x400_1.webp',
+    fuente: '/hueco1_3x1-2292x400_1_CC.webp',
     ancho: 2292,
     alto: 400,
     columnas: 3,
@@ -566,7 +580,7 @@ const datos: IDatosTitiritero = {
   },
 
   nube1: {
-    fuente: '/nube1_3x1-1767x350_1.webp',
+    fuente: '/nube1_3x1-1767x350_1_CC.webp',
     ancho: 1767,
     alto: 350,
     columnas: 3,
@@ -806,7 +820,7 @@ const datos: IDatosTitiritero = {
   },
 
   pajarera: {
-    fuente: '/pajarera_6x3-5793x1300_1.webp',
+    fuente: '/pajarera_6x3-5793x1300_1_CC.webp',
     ancho: 5793,
     alto: 1300,
     columnas: 6,
@@ -896,7 +910,7 @@ const datos: IDatosTitiritero = {
   },
 
   huecoSol: {
-    fuente: '/huecoSol_17x1-8777x700_1.webp',
+    fuente: '/huecoSol_17x1-8777x700_1_CC.webp',
     ancho: 8777,
     alto: 700,
     columnas: 17,
@@ -941,7 +955,7 @@ const datos: IDatosTitiritero = {
   },
 
   huecoNube: {
-    fuente: '/huecoNube_5x3-3251x2000_1.webp',
+    fuente: '/huecoNube_5x3-3251x2000_1_CC.webp',
     ancho: 3251,
     alto: 2000,
     columnas: 5,
@@ -967,7 +981,7 @@ const datos: IDatosTitiritero = {
   },
 
   hueco3: {
-    fuente: '/hueco3_3x1-3008x450_1.webp',
+    fuente: '/hueco3_3x1-3008x450_1_CC.webp',
     ancho: 3008,
     alto: 450,
     columnas: 3,
@@ -1054,7 +1068,7 @@ const datos: IDatosTitiritero = {
   },
 
   cafetera: {
-    fuente: '/cafetera_3x3-932x1200_1.webp',
+    fuente: '/cafetera_3x3-932x1200_1_CC.webp',
     ancho: 932,
     alto: 1200,
     columnas: 3,
@@ -1137,7 +1151,7 @@ const datos: IDatosTitiritero = {
   },
 
   sillaLoop: {
-    fuente: '/sillaLoop_2x2-873x1200_1.webp',
+    fuente: '/sillaLoop_2x2-873x1200_1_CC.webp',
     ancho: 873,
     alto: 1200,
     columnas: 2,
