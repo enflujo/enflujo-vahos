@@ -34,6 +34,8 @@ export interface IDatosPixi {
 export interface ISecuenciaAnimacion extends AnimatedSprite {
   velocidad: number;
   angulo: number;
+  invertido: boolean;
+  direccion: number;
 }
 
 export type TDimensiones = {
@@ -42,3 +44,5 @@ export type TDimensiones = {
   pasoX: number;
   pasoY: number;
 };
+
+export type TAnimacionCancion = () => void;

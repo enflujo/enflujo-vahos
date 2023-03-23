@@ -1,9 +1,9 @@
 import { AnimatedSprite, Application, BaseTexture, BLEND_MODES, ICanvas, Spritesheet } from 'pixijs';
-import { IDatosParaPixi, IDatosPixi, IDatosTitiritero } from '../tipos';
+import { IDatosParaPixi, IDatosPixi, IDatosTitiritero, ISecuenciaAnimacion } from '../tipos';
 import datos from './datos';
 
 const texturas: { [nombre: string]: Spritesheet } = {};
-const secuencias: { [nombre: string]: AnimatedSprite } = {};
+const secuencias: { [nombre: string]: ISecuenciaAnimacion } = {};
 let aplicacion: Application<ICanvas>;
 
 /**
@@ -44,11 +44,15 @@ export function llamarSecuencia(nombre: string) {
  */
 export function crearSecuencia(nombre: string, velocidad = 0.1666, reproducirInmediatamente = true) {
   if (!texturas[nombre]) return;
-  const secuencia = new AnimatedSprite(texturas[nombre].animations.anim);
+  const secuencia = new AnimatedSprite(texturas[nombre].animations.anim) as ISecuenciaAnimacion;
   // Como el efecto multiply en Photoshop.
   // Aplicar a todas el efecto de multiplicación para que se combinen los dibujos uno encima del otro.
   secuencia.blendMode = BLEND_MODES.MULTIPLY;
   secuencia.animationSpeed = velocidad;
+
+  if (nombre === 'juanCamilo') {
+    secuencia.anchor.set(0.5);
+  }
 
   if (reproducirInmediatamente) {
     secuencia.play();
