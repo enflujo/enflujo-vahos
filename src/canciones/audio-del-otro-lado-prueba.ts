@@ -47,13 +47,17 @@ export default (dims: TDimensiones) => {
   pajarera2.position.set(dims.pasoX * 1.7, dims.pasoY * 7.2);
   pajarera2.alpha = 1;
 
-  return { animar };
+  return { animar, limpiar };
 
   function animar() {
     if (despertar) {
+      pescadini.rotation += 0.1;
+
       console.log('¡Despertar!');
     }
   }
+
+  function limpiar() {}
 };
 
 // Los peces nadan
@@ -138,7 +142,7 @@ function revisarEstados(features) {
   const { rms } = features;
   // console.log(rms);
   if (!gestos.presonus.despertar.esperar) {
-    if (rms > 0.001) {
+    if (rms > 0.0015) {
       gestos.presonus.despertar.esperar = setTimeout(() => {
         permitirRevision('presonus', 'despertar');
       }, 2000);
