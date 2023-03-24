@@ -7,7 +7,7 @@ export function crearPajaros() {
   losPajaros.push(llamarSecuencia('juanCamilo'));
 
   for (let p = 0; p < 10; p++) {
-    const pajaro = crearSecuencia(`juanCamilo`, aleatorioIntegral(0.111, 0.175), false);
+    const pajaro = crearSecuencia('juanCamilo', aleatorioIntegral(0.111, 0.175), false);
 
     if (pajaro) {
       losPajaros.push(pajaro);

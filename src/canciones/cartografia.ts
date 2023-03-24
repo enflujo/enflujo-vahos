@@ -1,30 +1,79 @@
-import { TDimensiones } from '../tipos';
-import { llamarSecuencia } from '../utilidades/ayudas';
+import { estadoInicial } from '../secuencias/pajaros';
+import { ISecuenciaAnimacion, TDimensiones } from '../tipos';
+import { aleatorioFraccion, aleatorioIntegral, crearSecuencia, llamarSecuencia } from '../utilidades/ayudas';
 
 export default (dims: TDimensiones) => {
   const fondo3 = llamarSecuencia('fondo3');
-  fondo3.scale.set(1.1);
-  fondo3.position.set(-dims.pasoX * 0.1, dims.pasoY * 2.7);
-  fondo3.alpha = 2;
+  fondo3.scale.set(2);
+  fondo3.position.set(0, dims.pasoY * 1.7);
+  fondo3.alpha = 1;
+  fondo3.velocidad = 0.2;
 
-  const arbolNube = llamarSecuencia('arbolNube');
-  arbolNube.scale.set(0.5);
-  arbolNube.position.set(dims.pasoX * 0.2, dims.pasoY * 1.8);
-  arbolNube.alpha = 1;
+  const velocidadX = 0.2;
+  let velocidadY = -0.15;
+  let pajarosAbajo = false;
 
-  const manoPajaro = llamarSecuencia('manoPajaro');
-  manoPajaro.scale.set(0.3);
-  manoPajaro.position.set(dims.pasoX * 5, dims.pasoY * 3.6);
-  manoPajaro.alpha = 1;
+  const pajarosTemporales: ISecuenciaAnimacion[] = [];
 
-  const moscas = llamarSecuencia('moscas');
-  moscas.scale.set(0.7);
-  moscas.position.set(dims.pasoX * 5, dims.pasoY);
-  moscas.alpha = 1;
+  for (let i = 0; i < 222; i++) {
+    const pajaro = crearSecuencia('juanCamilo', aleatorioIntegral(0.111, 0.175), false, false) as ISecuenciaAnimacion;
+    estadoInicial(pajaro, dims);
+    pajaro.alpha = 1;
+
+    reiniciarPajaro(pajaro);
+
+    pajarosTemporales.push(pajaro);
+  }
 
   return { animar, limpiar };
 
-  function animar() {}
-  function limpiar() {}
-  // Pájaros
+  function animar() {
+    fondo3.x -= velocidadX;
+    fondo3.y += velocidadY;
+
+    if (!pajarosAbajo && fondo3.y < -600) {
+      pajarosAbajo = true;
+    }
+
+    pajarosTemporales.forEach((pajaro) => {
+      pajaro.x += pajaro.velocidad * pajaro.direccion;
+      pajaro.y += pajaro.velocidad * pajaro.angulo * pajaro.direccion;
+
+      if (!pajaro.invertido && pajaro.x > dims.ancho + 10) {
+        reiniciarPajaro(pajaro);
+      } else if (pajaro.invertido && pajaro.x < -10) {
+        reiniciarPajaro(pajaro);
+      }
+
+      if (pajaro.y < 0 || pajaro.y > dims.alto) {
+        reiniciarPajaro(pajaro);
+      }
+    });
+  }
+
+  function reiniciarPajaro(pajaro: ISecuenciaAnimacion) {
+    const escala = aleatorioFraccion(0.2, 0.5);
+
+    if (pajaro.invertido) {
+      pajaro.scale.set(-escala, escala);
+      pajaro.x = dims.ancho + aleatorioIntegral(0, 900);
+    } else {
+      pajaro.scale.set(escala, escala);
+      pajaro.x = aleatorioIntegral(-10, -900);
+    }
+
+    if (!pajarosAbajo) {
+      pajaro.y = dims.pasoY * aleatorioFraccion(0.1, 2.9);
+    } else {
+      pajaro.y = dims.pasoY * aleatorioFraccion(4.5, 10);
+    }
+
+    const angulo = aleatorioFraccion(-0.15, 0.1);
+    pajaro.angulo = angulo;
+    pajaro.rotation = angulo;
+  }
+
+  function limpiar() {
+    return pajarosTemporales;
+  }
 };

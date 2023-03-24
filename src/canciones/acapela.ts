@@ -18,5 +18,9 @@ export default (dims: TDimensiones) => {
     });
   }
 
-  function limpiar() {}
+  function limpiar() {
+    pajaros.forEach((pajaro) => {
+      pajaro.alpha = 0;
+    });
+  }
 };

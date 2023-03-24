@@ -1,5 +1,5 @@
 import { AnimatedSprite, Application, BaseTexture, BLEND_MODES, ICanvas, Spritesheet } from 'pixijs';
-import { IDatosParaPixi, IDatosPixi, IDatosTitiritero, ISecuenciaAnimacion } from '../tipos';
+import { IDatosParaPixi, IDatosPixi, IDatosTitiritero, ISecuenciaAnimacion, TDimensiones } from '../tipos';
 import datos from './datos';
 
 const texturas: { [nombre: string]: Spritesheet } = {};
@@ -25,7 +25,7 @@ export function crearAplicacion() {
 export function llamarSecuencia(nombre: string) {
   return secuencias[nombre];
 }
-
+let contadorPajaro = 0;
 /**
  * Crea una instancia de AnimatedSprite de PIXI.
  * Las propiedades y funciones se pueden ver en: https://pixijs.download/dev/docs/PIXI.AnimatedSprite.html
@@ -54,9 +54,14 @@ export function crearSecuencia(
   // Aplicar a todas el efecto de multiplicación para que se combinen los dibujos uno encima del otro.
   secuencia.blendMode = BLEND_MODES.MULTIPLY;
   secuencia.animationSpeed = velocidad;
+  let nombreModificado: string | null = null;
 
   if (nombre === 'juanCamilo') {
     secuencia.anchor.set(0.5);
+    if (contadorPajaro > 0) {
+      nombreModificado = `juanCamilo${contadorPajaro}`;
+    }
+    contadorPajaro++;
   }
 
   if (reproducirInmediatamente) {
@@ -69,10 +74,16 @@ export function crearSecuencia(
   aplicacion.stage.addChild(secuencia);
 
   if (agregarALista) {
-    secuencias[nombre] = secuencia;
+    secuencias[nombreModificado ? nombreModificado : nombre] = secuencia;
   }
 
   return secuencia;
+}
+
+export function esconderTodo(dims: TDimensiones) {
+  for (const nombre in secuencias) {
+    secuencias[nombre].y = dims.alto * 2;
+  }
 }
 
 export function mostrarTodas() {

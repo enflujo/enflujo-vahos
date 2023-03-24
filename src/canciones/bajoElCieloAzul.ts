@@ -1,5 +1,4 @@
-import { AnimatedSprite } from 'pixijs';
-import { TDimensiones } from '../tipos';
+import { ISecuenciaAnimacion, TDimensiones } from '../tipos';
 import { llamarSecuencia, crearSecuencia } from '../utilidades/ayudas';
 
 export default (dims: TDimensiones) => {
@@ -8,17 +7,17 @@ export default (dims: TDimensiones) => {
   mar.position.set(dims.pasoX * 0.1, dims.pasoY * 2);
   mar.alpha = 1;
 
-  const mar2 = crearSecuencia('mar') as AnimatedSprite;
+  const mar2 = crearSecuencia('mar', 0.166, true, false) as ISecuenciaAnimacion;
   mar2.scale.set(0.5, -0.5);
   mar2.position.set(dims.pasoX * 2.6, dims.pasoY * 2);
   mar2.alpha = 1;
 
-  const mar3 = crearSecuencia('mar') as AnimatedSprite;
+  const mar3 = crearSecuencia('mar', 0.166, true, false) as ISecuenciaAnimacion;
   mar3.scale.set(0.5, -0.5);
   mar3.position.set(dims.pasoX * 5.1, dims.pasoY * 2);
   mar3.alpha = 1;
 
-  const mar4 = crearSecuencia('mar') as AnimatedSprite;
+  const mar4 = crearSecuencia('mar', 0.166, true, false) as ISecuenciaAnimacion;
   mar4.scale.set(0.5, -0.5);
   mar4.position.set(dims.pasoX * 7.5, dims.pasoY * 2);
   mar4.alpha = 1;
@@ -58,7 +57,11 @@ export default (dims: TDimensiones) => {
   return { animar, limpiar };
 
   function animar() {}
-  function limpiar() {}
+  function limpiar() {
+    mar2.destroy();
+    mar3.destroy();
+    mar4.destroy();
+  }
 };
 
 // Pájaros vuelan

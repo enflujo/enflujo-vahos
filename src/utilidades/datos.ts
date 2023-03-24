@@ -110,6 +110,7 @@ const datos: IDatosTitiritero = {
     columnas: 4,
     filas: 4,
     invertido: true,
+    pingPong: true,
     fotogramas: [
       { x: 0, y: 0, ancho: 670, alto: 750 },
       { x: 670, y: 0, ancho: 670, alto: 750 },

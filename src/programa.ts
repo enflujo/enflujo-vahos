@@ -1,7 +1,7 @@
 import './scss/estilos.scss';
 import { esNumero } from '@enflujo/alquimia';
-import { cargarTexturas, crearAplicacion, mostrarTodas } from './utilidades/ayudas';
-import { TAnimacionCancion, TDimensiones } from './tipos';
+import { cargarTexturas, crearAplicacion, esconderTodo, mostrarTodas } from './utilidades/ayudas';
+import { ISecuenciaAnimacion, TAnimacionCancion, TDimensiones } from './tipos';
 
 import acapela from './canciones/acapela';
 import buenosDias from './canciones/buenosDias';
@@ -86,24 +86,25 @@ function actualizarDimensiones() {
 
 function cambiarCancion(nombre: string) {
   cancion = nombre;
-  esconderTodo();
+  esconderTodo(dims);
+  let elementosAnteriores: ISecuenciaAnimacion[] | void = [];
 
   if (secuenciaActual) {
-    secuenciaActual.limpiar();
+    elementosAnteriores = secuenciaActual.limpiar();
   }
 
-  secuenciaActual = composiciones[cancion](dims);
+  secuenciaActual = composiciones[cancion](dims, elementosAnteriores);
   aplicacion.stage.alpha = 1;
 
   // siguienteCancion = nombre;
   // enTransicion = true;
 }
 
-function esconderTodo() {
-  aplicacion.stage.children.forEach((secuencia) => {
-    secuencia.y = dims.alto * 2;
-  });
-}
+// function esconderTodo() {
+//   aplicacion.stage.children.forEach((secuencia) => {
+//     secuencia.y = dims.alto * 2;
+//   });
+// }
 
 async function inicio() {
   actualizarDimensiones();
@@ -126,7 +127,7 @@ async function inicio() {
         console.log('listo para montar cancion', cancion);
         cancion = siguienteCancion;
 
-        esconderTodo();
+        esconderTodo(dims);
 
         secuenciaActual = composiciones[cancion](dims);
         aplicacion.stage.alpha = 1;

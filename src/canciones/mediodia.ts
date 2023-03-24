@@ -26,7 +26,7 @@ export default (dims: TDimensiones) => {
   const sol = llamarSecuencia('anaSol');
   sol.scale.set(0.5);
   sol.anchor.set(0.5);
-  sol.position.set(dims.pasoX * 8.1, dims.pasoY * 2.3);
+  sol.position.set(dims.pasoX * 8.1, dims.pasoY * 8);
   sol.alpha = 1;
 
   const arbolSeco3 = llamarSecuencia('arbolSeco3');
@@ -36,7 +36,11 @@ export default (dims: TDimensiones) => {
 
   return { animar, limpiar };
 
-  function animar() {}
+  function animar() {
+    if (sol.y > dims.pasoY * 2.3) {
+      sol.y -= 0.25;
+    }
+  }
   function limpiar() {}
 };
 
