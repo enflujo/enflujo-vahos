@@ -51,6 +51,7 @@ export default (dims: TDimensiones) => {
 
   function animar() {
     if (despertar) {
+      pescadini.rotation += 0.1;
       console.log('¡Despertar!');
     }
   }
@@ -58,7 +59,7 @@ export default (dims: TDimensiones) => {
 
 // Los peces nadan
 
-////////////////////////////////////
+///////////////AUDIO/////////////////////
 
 const ContextoAudio = window.AudioContext || window.webkitAudioContext;
 const permitirRevision = (interfaz, nombreGesto) => {
@@ -136,6 +137,7 @@ function crearAnalizadorMeyda(interfaz) {
 
 function revisarEstados(features) {
   const { rms } = features;
+  // Descomentar para imprimir el rms y calibrar el nivel
   // console.log(rms);
   if (!gestos.presonus.despertar.esperar) {
     if (rms > 0.001) {
@@ -147,7 +149,5 @@ function revisarEstados(features) {
     } else {
       despertar = false;
     }
-  } /* else {
-    console.log('Ya despertaste');
-  } */
+  }
 }
