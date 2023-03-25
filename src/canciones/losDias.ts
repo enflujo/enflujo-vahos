@@ -1,15 +1,22 @@
 import { listaPajaros, reiniciarPajaro } from '../secuencias/pajaros';
-import { TDimensiones, ISecuenciaAnimacion } from '../tipos';
-import { aleatorioFraccion, aleatorioIntegral, llamarSecuencia, mostrarTodas } from '../utilidades/ayudas';
+import { ISecuenciaAnimacion, TDimensiones } from '../tipos';
+import {
+  aleatorioFraccion,
+  aleatorioIntegral,
+  crearSecuencia,
+  llamarSecuencia,
+  mostrarTodas,
+} from '../utilidades/ayudas';
 
 export default (dims: TDimensiones) => {
   const fondo1 = llamarSecuencia('fondo1');
   fondo1.scale.set(0.3);
   fondo1.y = dims.pasoY * 2;
 
-  const fondo2 = llamarSecuencia('fondo2');
+  const fondo2 = crearSecuencia('fondo2', 0.166, true, false) as ISecuenciaAnimacion;
   fondo2.scale.set(0.3);
-  fondo2.anchor.set(-1, -1);
+  fondo2.alpha = 1;
+  fondo2.position.set(dims.pasoX * 2.7, dims.pasoY * 2.7);
 
   const fondo3 = llamarSecuencia('fondo3');
   fondo3.scale.set(0.3);
@@ -259,5 +266,7 @@ export default (dims: TDimensiones) => {
     }
   }
 
-  function limpiar() {}
+  function limpiar() {
+    fondo2.destroy();
+  }
 };
