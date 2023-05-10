@@ -1,9 +1,9 @@
 import './scss/estilos.scss';
 import { esNumero } from '@enflujo/alquimia';
-import { cargarTexturas, crearAplicacion, esconderTodo, mostrarTodas } from './utilidades/ayudas';
+import { cargarTexturas, crearAplicacion, esconderTodo } from './utilidades/ayudas';
 import { ISecuenciaAnimacion, TAnimacionCancion, TDimensiones } from './tipos';
 
-import acapela from './canciones/acapela';
+import introduccion from './canciones/introduccion';
 import buenosDias from './canciones/buenosDias';
 import stop from './canciones/stop';
 import ojazosNegros from './canciones/ojazosNegros';
@@ -26,7 +26,7 @@ import { crearPajaros } from './secuencias/pajaros';
  */
 
 const canciones = [
-  'acapela',
+  'introduccion',
   'buenosDias',
   'stop',
   'ojazosNegros',
@@ -46,7 +46,7 @@ const canciones = [
 const composiciones: {
   [nombreCancion: string]: (dims: TDimensiones) => { animar: TAnimacionCancion; limpiar: TAnimacionCancion };
 } = {
-  acapela: acapela,
+  introduccion: introduccion,
   buenosDias: buenosDias,
   stop: stop,
   ojazosNegros: ojazosNegros,
@@ -65,7 +65,7 @@ const composiciones: {
 
 const dims = { ancho: 0, alto: 0, pasoX: 0, pasoY: 0 };
 const aplicacion = crearAplicacion();
-let cancion = 'losDias';
+let cancion = 'camaraLenta';
 let siguienteCancion = '';
 let enTransicion = false;
 const velocidadTransicion = 0.00311;
@@ -73,10 +73,12 @@ const velocidadTransicionFin = 0.001;
 let secuenciaActual: { [nombre: string]: TAnimacionCancion };
 
 inicio();
+window.onresize = actualizarDimensiones;
 
 function actualizarDimensiones() {
   const ancho = window.innerWidth;
   const alto = window.innerHeight;
+
   aplicacion.renderer.resize(ancho, alto);
   dims.ancho = ancho;
   dims.alto = alto;
@@ -93,30 +95,20 @@ function cambiarCancion(nombre: string) {
     elementosAnteriores = secuenciaActual.limpiar();
   }
 
-  secuenciaActual = composiciones[cancion](dims, elementosAnteriores);
+  secuenciaActual = composiciones[cancion]();
+  secuenciaActual.posiciones(dims);
   aplicacion.stage.alpha = 1;
-
-  // siguienteCancion = nombre;
-  // enTransicion = true;
 }
-
-// function esconderTodo() {
-//   aplicacion.stage.children.forEach((secuencia) => {
-//     secuencia.y = dims.alto * 2;
-//   });
-// }
 
 async function inicio() {
   actualizarDimensiones();
   // Carga todas las texturas a la GPU.
   await cargarTexturas();
   aplicacion.start();
-  crearPajaros();
 
-  // if (cancion === 'losDias') {
-  //   secuenciaActual = losDias(dims);
-  //   mostrarTodas();
-  // }
+  secuenciaActual = composiciones[cancion]();
+  secuenciaActual.posiciones(dims);
+  // crearPajaros();
 
   aplicacion.ticker.add(() => {
     if (enTransicion) {
@@ -128,7 +120,7 @@ async function inicio() {
         cancion = siguienteCancion;
 
         esconderTodo(dims);
-
+        console.log(dims);
         secuenciaActual = composiciones[cancion](dims);
         aplicacion.stage.alpha = 1;
       }

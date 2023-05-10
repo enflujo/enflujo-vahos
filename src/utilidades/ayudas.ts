@@ -13,7 +13,6 @@ let aplicacion: Application<ICanvas>;
 export function crearAplicacion() {
   aplicacion = new Application({
     backgroundColor: 0xffffe6,
-    // backgroundColor: 0xffffff,
     powerPreference: 'high-performance',
     autoStart: false,
     view: document.getElementById('lienzo') as HTMLCanvasElement,
@@ -25,6 +24,7 @@ export function crearAplicacion() {
 export function llamarSecuencia(nombre: string) {
   return secuencias[nombre];
 }
+
 let contadorPajaro = 0;
 /**
  * Crea una instancia de AnimatedSprite de PIXI.
@@ -125,7 +125,7 @@ export function transformarDatosTitiriteroAPixi(datos: IDatosTitiritero): IDatos
   for (const llave in datos) {
     const imagen = datos[llave];
     const secuencia: IDatosParaPixi = {
-      fuente: imagen.fuente,
+      fuente: `/animaciones${imagen.fuente}`,
       frames: {},
       meta: { scale: '1' },
       animations: { anim: imagen.orden ? imagen.orden : [] },

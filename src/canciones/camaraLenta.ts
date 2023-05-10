@@ -1,21 +1,18 @@
 import { ISecuenciaAnimacion, TDimensiones } from '../tipos';
 import { llamarSecuencia, crearSecuencia, aleatorioFraccion } from '../utilidades/ayudas';
 
-export default (dims: TDimensiones) => {
-  const { pasoX, pasoY } = dims;
+export default () => {
+  let pasoX = 0;
+  let pasoY = 0;
+
   const dimensionAstral = llamarSecuencia('dimensionAstral');
-  dimensionAstral.scale.set(0.6);
-  dimensionAstral.position.set(pasoX * 1.2, pasoY * 6.5);
   dimensionAstral.alpha = 1;
-
-  const dimensionAstral2 = crearSecuencia('dimensionAstral', 0.12, true, false) as ISecuenciaAnimacion;
-  dimensionAstral2.scale.set(-0.6, 0.6);
-  dimensionAstral2.position.set(pasoX * 7, pasoY * 3);
-  dimensionAstral2.alpha = 1;
-
   dimensionAstral.onLoop = () => {
     dimensionAstral.position.set(pasoX * aleatorioFraccion(0, 10), pasoY * aleatorioFraccion(0, 10));
   };
+
+  const dimensionAstral2 = crearSecuencia('dimensionAstral', 0.12, true, false) as ISecuenciaAnimacion;
+  dimensionAstral2.alpha = 1;
   dimensionAstral2.onLoop = () => {
     dimensionAstral2.position.set(pasoX * aleatorioFraccion(0, 10), pasoY * aleatorioFraccion(0, 10));
   };
@@ -26,7 +23,18 @@ export default (dims: TDimensiones) => {
     crearADiego();
   }
 
-  return { animar, limpiar };
+  return { animar, limpiar, posiciones };
+
+  function posiciones(dims: TDimensiones) {
+    pasoX = dims.pasoX;
+    pasoY = dims.pasoY;
+
+    dimensionAstral.scale.set(0.6);
+    dimensionAstral.position.set(pasoX * 1.2, pasoY * 6.5);
+
+    dimensionAstral2.scale.set(-0.6, 0.6);
+    dimensionAstral2.position.set(pasoX * 7, pasoY * 3);
+  }
 
   // 💝
   function crearADiego() {
@@ -67,8 +75,8 @@ export default (dims: TDimensiones) => {
 
   function limpiar() {
     dimensionAstral2.destroy();
-    dimensionAstral.onLoop = null;
-    dimensionAstral2.onLoop = null;
+    dimensionAstral.onLoop = undefined;
+    dimensionAstral2.onLoop = undefined;
 
     dieguis.forEach((duieguito) => {
       duieguito.destroy();
