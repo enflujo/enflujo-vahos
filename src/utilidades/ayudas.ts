@@ -1,6 +1,6 @@
 import { AnimatedSprite, Application, BaseTexture, BLEND_MODES, ICanvas, Spritesheet } from 'pixijs';
 import { IDatosParaPixi, IDatosPixi, IDatosTitiritero, ISecuenciaAnimacion, TDimensiones } from '../tipos';
-import datos from './datos';
+import { datosPixi } from './datos';
 
 const texturas: { [nombre: string]: Spritesheet } = {};
 const secuencias: { [nombre: string]: ISecuenciaAnimacion } = {};
@@ -103,8 +103,8 @@ export function mostrarTodas() {
  * ```
  */
 export async function cargarTexturas() {
-  for (const nombre of Object.keys(datos)) {
-    const datosTextura = datos[nombre];
+  for (const nombre of Object.keys(datosPixi)) {
+    const datosTextura = datosPixi[nombre];
     const textura = new Spritesheet(BaseTexture.from(datosTextura.fuente), datosTextura);
     await textura.parse();
 

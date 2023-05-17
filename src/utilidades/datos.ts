@@ -1,7 +1,6 @@
-import type { IDatosTitiritero } from '../tipos';
-import { transformarDatosTitiriteroAPixi } from './ayudas';
+import type { IDatosParaPixi, IDatosPixi, IDatosTitiritero } from '../tipos';
 
-const datos: IDatosTitiritero = {
+export const datos: IDatosTitiritero = {
   juanCamilo: {
     fuente: '/juanCamilo_f5_w226_h50.png',
     ancho: 226,
@@ -1267,4 +1266,54 @@ const datos: IDatosTitiritero = {
   },
 };
 
-export default transformarDatosTitiriteroAPixi(datos);
+export const datosPixi = transformarDatosTitiriteroAPixi();
+
+/**
+ * Transforma la estructura de datos que exporta el titiritero a la que necesita PIXI.
+ *
+ * @param datos Datos en el formato que exporta enflujo/titiritero
+ * @returns Datos en el formato que necesita PIXI.
+ */
+function transformarDatosTitiriteroAPixi(): IDatosPixi {
+  const datosFormatoPixi: IDatosPixi = {};
+
+  for (const [llave, imagen] of Object.entries(datos)) {
+    const secuencia: IDatosParaPixi = {
+      fuente: `/animaciones${imagen.fuente}`,
+      frames: {},
+      meta: { scale: '1' },
+      velocidad: imagen.velocidad ? imagen.velocidad : 0.166,
+    };
+
+    if (!secuencia.animations) {
+      secuencia.animations = {};
+    }
+
+    if (imagen.orden) {
+      secuencia.animations.anim = imagen.orden;
+    } else {
+      secuencia.animations.anim = imagen.fotogramas.map((fotograma, i) => {
+        secuencia.frames[`${llave}${i}`] = {
+          frame: { x: fotograma.x, y: fotograma.y, w: fotograma.ancho, h: fotograma.alto },
+        };
+
+        return `${llave}${i}`;
+      });
+
+      if (imagen.invertido) {
+        secuencia.animations.anim.reverse();
+      }
+    }
+
+    if (imagen.pingPong && secuencia.animations) {
+      // Clonar e invertir secuencia.
+      const unaPasada = secuencia.animations.anim.map((f) => f).reverse();
+      unaPasada.shift(); // eliminar primer elemento del array.
+      unaPasada.pop(); // eliminar el último
+      secuencia.animations.anim = [...secuencia.animations.anim, ...unaPasada];
+    }
+    datosFormatoPixi[llave] = secuencia;
+  }
+
+  return datosFormatoPixi;
+}
