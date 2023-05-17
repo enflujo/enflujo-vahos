@@ -1,6 +1,6 @@
-import { listaPajaros } from '../secuencias/pajaros';
 import { TDimensiones } from '../tipos';
 import { llamarSecuencia } from '../utilidades/ayudas';
+import { datos } from '../utilidades/datos';
 
 export default () => {
   let dimensiones: TDimensiones;
@@ -19,14 +19,29 @@ export default () => {
   sol.anchor.set(0.5);
   sol.alpha = 0;
 
-  listaPajaros();
-
   return { animar, limpiar, posiciones };
 
   function posiciones(dims: TDimensiones) {
+    const escalas = {
+      fondo1: { ancho: 0.45, alto: 0.6, y: 1, x: -0.1 },
+    };
+
     dimensiones = dims;
-    fondo1.scale.set(0.6);
+    const dimsFondo1 = datos.fondo1.fotogramas[0];
+
+    function escalaImgAPantalla(dimPantalla: number, dimImg: number) {
+      return 1 + (dimPantalla - dimImg) / dimImg;
+    }
+
+    const porcentajeAlto = escalaImgAPantalla(dims.alto * escalas.fondo1.alto, dimsFondo1.alto);
+
+    if (dims.ancho > dims.alto) {
+      console.log(porcentajeAlto);
+    }
+
+    fondo1.scale.set(porcentajeAlto);
     fondo1.y = dims.pasoY;
+    fondo1.x = -dims.pasoX * 0.1;
 
     fondo2.scale.set(0.7);
     fondo2.position.set(-dims.pasoX * 0.3, -dims.pasoY * 4.2);

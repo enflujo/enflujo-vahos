@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
   // base: '/',
@@ -10,6 +11,7 @@ export default defineConfig({
   build: {
     outDir: 'publico',
     assetsDir: 'recursos',
-    sourcemap: true,
+    // sourcemap: true,
   },
+  plugins: [vue()],
 });
