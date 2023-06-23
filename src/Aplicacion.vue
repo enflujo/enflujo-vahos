@@ -44,6 +44,7 @@ function actualizarDimensiones() {
     <router-link to="/">Inicio</router-link>&nbsp;
     <router-link to="/buenos-dias">Buenos Días</router-link>
   </nav>
+
   <canvas id="lienzo" ref="lienzo"></canvas>
   <router-view />
 </template>

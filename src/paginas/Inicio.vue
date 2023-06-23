@@ -2,7 +2,7 @@
 import { AnimatedSprite, BLEND_MODES } from 'pixijs';
 import { dimensiones, instanciaAplicacion, secuencias } from '../cerebros/general';
 import { datosPixi } from '../utilidades/datos';
-import { agregar, cargar, imgs } from '../utilidades/cargador';
+import { agregar, cargar } from '../utilidades/cargador';
 import { aleatorioFraccion, aleatorioIntegral } from '../utilidades/ayudas';
 import type { ISecuenciaAnimacion } from '../tipos';
 import { onMounted } from 'vue';
@@ -20,17 +20,15 @@ onMounted(async () => {
     if (!juanCamilo) return;
 
     agregar('juanCamilo', juanCamilo);
-    console.log(juanCamilo);
+
     await cargar();
 
     if (!animaciones.juanCamilo) return;
-    console.log(imgs.juanCamilo);
   }
 });
 
 secuencias.listen((evento) => {
   if (!evento.juanCamilo) return;
-  console.log('secuencias', dims.value);
   const { ancho, alto } = dims.value;
 
   for (let i = 0; i < 50; i++) {
@@ -39,7 +37,7 @@ secuencias.listen((evento) => {
     pajaro.alpha = 0;
     pajaro.animationSpeed = aleatorioFraccion(0.111, 0.175);
     pajaro.opacidad = aleatorioFraccion(0.8, 0.95);
-    pajaro.velocidad = aleatorioFraccion(1.5, 2.5);
+    pajaro.velocidad = aleatorioFraccion(5.5, 10.5);
     pajaro.anchor.set(0.5);
     const angulo = aleatorioFraccion(-0.35, 0.5);
     pajaro.angulo = angulo;
