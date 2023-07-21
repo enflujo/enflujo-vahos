@@ -5,11 +5,11 @@ import { datosPixi } from '../utilidades/datos';
 import { agregar, cargar } from '../utilidades/cargador';
 import { aleatorioFraccion, aleatorioIntegral } from '../utilidades/ayudas';
 import type { ISecuenciaAnimacion } from '../tipos';
-import { onMounted } from 'vue';
+import { onMounted, onUnmounted } from 'vue';
 import { useStore } from '@nanostores/vue';
 
 const aplicacion = instanciaAplicacion.get();
-const animaciones = secuencias.get();
+// const animaciones = secuencias.get();
 const pajaros: ISecuenciaAnimacion[] = [];
 const dims = useStore(dimensiones);
 
@@ -23,8 +23,19 @@ onMounted(async () => {
 
     await cargar();
 
-    if (!animaciones.juanCamilo) return;
+    // if (!animaciones.juanCamilo) return;
+    animar();
   }
+});
+
+onUnmounted(async () => {
+  aplicacion.stage.removeChildren();
+
+  // aplicacion.stage.children.forEach((elemento) => {
+  //   elemento.destroy();
+  //   // console.log(elemento);
+  //   // escena.removeChild(elemento.);
+  // });
 });
 
 secuencias.listen((evento) => {
@@ -63,8 +74,6 @@ secuencias.listen((evento) => {
     pajaros.push(pajaro);
     aplicacion.stage.addChild(pajaro);
   }
-
-  animar();
 });
 
 function animar() {

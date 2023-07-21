@@ -2,9 +2,9 @@ import { BaseTexture, Spritesheet, Texture } from 'pixijs';
 import type { IDatosParaPixi } from '../tipos';
 import { secuencias } from '../cerebros/general';
 
-const cargador = document.getElementById('cargador');
-const proceso: HTMLSpanElement | null | undefined = cargador?.querySelector('.proceso');
-const contenedorMensaje: HTMLSpanElement | null | undefined = cargador?.querySelector('.mensaje');
+let cargador: HTMLDivElement;
+let proceso: HTMLSpanElement | null;
+let contenedorMensaje: HTMLSpanElement | null;
 
 export const imgs: { [nombre: string]: Texture[] } = {};
 const cola: { nombre: string; datos: IDatosParaPixi }[] = [];
@@ -20,6 +20,10 @@ export async function cargar(): Promise<void> {
   return new Promise((resolver) => {
     setTimeout(() => {
       if (imgsCargadas !== cola.length) {
+        cargador = document.getElementById('cargador') as HTMLDivElement;
+        proceso = cargador.querySelector('.proceso');
+        contenedorMensaje = cargador.querySelector('.mensaje');
+
         mostrar();
       }
     }, 250);
