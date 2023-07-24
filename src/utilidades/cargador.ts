@@ -1,16 +1,13 @@
 import { BaseTexture, Spritesheet, Texture } from 'pixijs';
 import type { IDatosParaPixi } from '../tipos';
-import { secuencias } from '../cerebros/general';
-
-let cargador: HTMLDivElement;
-let proceso: HTMLSpanElement | null;
-let contenedorMensaje: HTMLSpanElement | null;
+import { secuencias, valoresCargador } from '../cerebros/general';
 
 export const imgs: { [nombre: string]: Texture[] } = {};
 const cola: { nombre: string; datos: IDatosParaPixi }[] = [];
 let total = 0;
 let cargado = 0;
 let imgsCargadas = 0;
+let cargando = false;
 
 export function agregar(nombre: string, datos: IDatosParaPixi) {
   cola.push({ nombre, datos });
@@ -19,18 +16,19 @@ export function agregar(nombre: string, datos: IDatosParaPixi) {
 export async function cargar(): Promise<void> {
   return new Promise((resolver) => {
     setTimeout(() => {
-      if (imgsCargadas !== cola.length) {
-        cargador = document.getElementById('cargador') as HTMLDivElement;
-        proceso = cargador.querySelector('.proceso');
-        contenedorMensaje = cargador.querySelector('.mensaje');
-
-        mostrar();
+      if (cargando) {
+        valoresCargador.setKey('visible', true);
       }
     }, 250);
+
+    cargando = true;
 
     for (const elemento of cola) {
       let totalSumado = false;
       let valorAnterior = 0;
+
+      console.log(elemento);
+
       const xhr = new XMLHttpRequest();
 
       xhr.open('GET', elemento.datos.fuente, true);
@@ -49,7 +47,11 @@ export async function cargar(): Promise<void> {
         }
 
         if (imgsCargadas === cola.length) {
-          esconder();
+          valoresCargador.setKey('porcentaje', 100);
+          valoresCargador.setKey('mensaje', `${100}% (${imgsCargadas} / ${cola.length})`);
+          valoresCargador.setKey('visible', false);
+          cola.splice(0, cola.length);
+          cargando = false;
           resolver();
         }
       };
@@ -64,22 +66,12 @@ export async function cargar(): Promise<void> {
           cargado += evento.loaded - valorAnterior;
           valorAnterior = evento.loaded;
 
-          if (!proceso || !contenedorMensaje) return;
           const porcentaje = Math.floor((cargado / total) * 100);
-
-          proceso.style.width = `${porcentaje}%`;
-          contenedorMensaje.innerText = `${porcentaje}% (${imgsCargadas} / ${cola.length})`;
+          valoresCargador.setKey('porcentaje', porcentaje);
+          valoresCargador.setKey('mensaje', `${porcentaje}% (${imgsCargadas} / ${cola.length})`);
         }
       };
       xhr.send();
     }
   });
-}
-
-function mostrar() {
-  cargador?.classList.add('activo');
-}
-
-function esconder() {
-  cargador?.classList.remove('activo');
 }

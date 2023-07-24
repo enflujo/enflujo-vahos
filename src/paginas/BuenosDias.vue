@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { instanciaAplicacion } from '../cerebros/general';
-import Reproductor from '../componentes/Reproductor.vue';
+import { instanciaAplicacion } from '@/cerebros/general';
+// import Reproductor from '../componentes/Reproductor.vue';
 
 const aplicacion = instanciaAplicacion.get();
 
@@ -24,5 +24,5 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Reproductor cancion="01-Buenos Días" />
+  <!-- <Reproductor cancion="01-Buenos Días" /> -->
 </template>

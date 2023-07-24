@@ -1,8 +1,12 @@
 import { createApp } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
-import Aplicacion from './Aplicacion.vue';
-import Inicio from './paginas/Inicio.vue';
-import BuenosDias from './paginas/BuenosDias.vue';
+import { devtools } from '@nanostores/vue/devtools';
+
+import Aplicacion from '@/Aplicacion.vue';
+import Inicio from '@/paginas/Inicio.vue';
+import BuenosDias from '@/paginas/BuenosDias.vue';
+
+import * as cerebroGeneral from '@/cerebros/general';
 
 const rutas = [
   { path: '/', component: Inicio },
@@ -14,7 +18,10 @@ const enrutador = createRouter({
   routes: rutas,
 });
 
-createApp(Aplicacion).use(enrutador).mount('#aplicacion');
+createApp(Aplicacion)
+  .use(devtools, { ...cerebroGeneral })
+  .use(enrutador)
+  .mount('#aplicacion');
 
 // import './scss/estilos.scss';
 // import { esNumero } from '@enflujo/alquimia';

@@ -1,6 +1,6 @@
-import { atom, map } from 'nanostores';
-import { Application } from 'pixijs';
-import type { Texture } from 'pixijs';
+import { map } from 'nanostores';
+import { Application, utils } from 'pixijs';
+import type { Resource, Texture } from 'pixijs';
 
 export type TDimensiones = {
   ancho: number;
@@ -9,7 +9,7 @@ export type TDimensiones = {
   pasoY: number;
 };
 
-export const instanciaAplicacion = atom(
+export const instanciaAplicacion = map<Application>(
   new Application({
     backgroundColor: 0xffffe6,
     powerPreference: 'high-performance',
@@ -18,6 +18,14 @@ export const instanciaAplicacion = atom(
   })
 );
 
+export const cache = map<{ [llave: string]: Texture<Resource> }>(utils.TextureCache);
+
 export const dimensiones = map<TDimensiones>({ ancho: 0, alto: 0, pasoX: 0, pasoY: 0 });
 
 export const secuencias = map<{ [nombre: string]: Texture[] }>({});
+
+export const valoresCargador = map<{ mensaje: string; porcentaje: number; visible: boolean }>({
+  mensaje: '',
+  porcentaje: 0,
+  visible: false,
+});

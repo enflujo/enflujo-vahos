@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { AnimatedSprite, BLEND_MODES } from 'pixijs';
-import { dimensiones, instanciaAplicacion, secuencias } from '../cerebros/general';
-import { datosPixi } from '../utilidades/datos';
-import { agregar, cargar } from '../utilidades/cargador';
-import { aleatorioFraccion, aleatorioIntegral } from '../utilidades/ayudas';
-import type { ISecuenciaAnimacion } from '../tipos';
+import { dimensiones, instanciaAplicacion, secuencias } from '@/cerebros/general';
+import { datosPixi } from '@/utilidades/datos';
+import { agregar, cargar } from '@/utilidades/cargador';
+import { aleatorioFraccion, aleatorioIntegral } from '@/utilidades/ayudas';
+import type { ISecuenciaAnimacion } from '@/tipos';
 import { onMounted, onUnmounted } from 'vue';
 import { useStore } from '@nanostores/vue';
 
 const aplicacion = instanciaAplicacion.get();
-// const animaciones = secuencias.get();
+const animaciones = secuencias.get();
 const pajaros: ISecuenciaAnimacion[] = [];
 const dims = useStore(dimensiones);
 
@@ -24,18 +24,34 @@ onMounted(async () => {
     await cargar();
 
     // if (!animaciones.juanCamilo) return;
-    animar();
+
+    aplicacion.ticker.add(animar);
   }
 });
 
-onUnmounted(async () => {
-  aplicacion.stage.removeChildren();
+onUnmounted(() => {
+  aplicacion.ticker.remove(animar);
+
+  // console.log(aplicacion.stage.children);
+  // aplicacion.stage.removeChildren();
+
+  // for (const nombre in texturas.value) {
+  //   texturas.value[nombre].destroy(true);
+  // }
+
+  pajaros.forEach((pajaro) => {
+    pajaro.destroy(true);
+  });
+  pajaros.splice(0, pajaros.length);
+  // console.log(texturas.value);
 
   // aplicacion.stage.children.forEach((elemento) => {
-  //   elemento.destroy();
+  //   // aplicacion.stage.removeChild(elemento);
+  //   elemento.destroy(true);
   //   // console.log(elemento);
-  //   // escena.removeChild(elemento.);
   // });
+
+  aplicacion.stage.removeChildren();
 });
 
 secuencias.listen((evento) => {
@@ -77,26 +93,24 @@ secuencias.listen((evento) => {
 });
 
 function animar() {
-  aplicacion.ticker.add(() => {
-    const { ancho, alto } = dims.value;
-    pajaros.forEach((pajaro) => {
-      if (pajaro.alpha < pajaro.opacidad) {
-        pajaro.alpha += 0.0006;
-      }
+  const { ancho, alto } = dims.value;
+  pajaros.forEach((pajaro) => {
+    if (pajaro.alpha < pajaro.opacidad) {
+      pajaro.alpha += 0.0006;
+    }
 
-      pajaro.x += pajaro.velocidad * pajaro.direccion;
-      pajaro.y += pajaro.velocidad * pajaro.angulo * pajaro.direccion;
+    pajaro.x += pajaro.velocidad * pajaro.direccion;
+    pajaro.y += pajaro.velocidad * pajaro.angulo * pajaro.direccion;
 
-      if (!pajaro.invertido && pajaro.x > ancho + 10) {
-        reiniciarPajaro(pajaro, ancho, alto);
-      } else if (pajaro.invertido && pajaro.x < -10) {
-        reiniciarPajaro(pajaro, ancho, alto);
-      }
+    if (!pajaro.invertido && pajaro.x > ancho + 10) {
+      reiniciarPajaro(pajaro, ancho, alto);
+    } else if (pajaro.invertido && pajaro.x < -10) {
+      reiniciarPajaro(pajaro, ancho, alto);
+    }
 
-      if (pajaro.y < 0 || pajaro.y > alto) {
-        reiniciarPajaro(pajaro, ancho, alto);
-      }
-    });
+    if (pajaro.y < 0 || pajaro.y > alto) {
+      reiniciarPajaro(pajaro, ancho, alto);
+    }
   });
 }
 
