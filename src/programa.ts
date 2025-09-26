@@ -44,7 +44,7 @@ const canciones = [
 ];
 
 const composiciones: {
-  [nombreCancion: string]: (dims: TDimensiones) => { animar: TAnimacionCancion; limpiar: TAnimacionCancion };
+  [nombreCancion: string]: (dims: TDimensiones, elementosAnteriores?:  ISecuenciaAnimacion[] | void) => { animar: TAnimacionCancion; limpiar: TAnimacionCancion };
 } = {
   acapela: acapela,
   buenosDias: buenosDias,
@@ -64,7 +64,8 @@ const composiciones: {
 };
 
 const dims = { ancho: 0, alto: 0, pasoX: 0, pasoY: 0 };
-const aplicacion = crearAplicacion();
+const aplicacion = await crearAplicacion();
+const renderizador = aplicacion.renderer;
 let cancion = 'losDias';
 let siguienteCancion = '';
 let enTransicion = false;
@@ -77,7 +78,7 @@ inicio();
 function actualizarDimensiones() {
   const ancho = window.innerWidth;
   const alto = window.innerHeight;
-  aplicacion.renderer.resize(ancho, alto);
+  renderizador.resize(ancho, alto);
   dims.ancho = ancho;
   dims.alto = alto;
   dims.pasoX = ancho / 11;

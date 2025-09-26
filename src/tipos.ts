@@ -1,6 +1,6 @@
-import type { AnimatedSprite, ISpritesheetData } from 'pixijs';
+import type { AnimatedSprite, SpritesheetData } from 'pixi.js';
 
-export interface IDatosParaPixi extends ISpritesheetData {
+export interface IDatosParaPixi extends SpritesheetData {
   fuente: string;
   velocidad: number;
 }

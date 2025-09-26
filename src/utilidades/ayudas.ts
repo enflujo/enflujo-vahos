@@ -1,23 +1,44 @@
-import { AnimatedSprite, Application, BaseTexture, BLEND_MODES, ICanvas, Spritesheet } from 'pixijs';
-import { IDatosParaPixi, IDatosPixi, IDatosTitiritero, ISecuenciaAnimacion, TDimensiones } from '../tipos';
-import datos from './datos';
+import {
+  AnimatedSprite,
+  Application,
+  Spritesheet,
+  Texture,
+  Assets,
+} from "pixi.js";
+
+import {
+  IDatosParaPixi,
+  IDatosPixi,
+  IDatosTitiritero,
+  ISecuenciaAnimacion,
+  TDimensiones,
+} from "../tipos";
+import datos from "./datos";
 
 const texturas: { [nombre: string]: Spritesheet } = {};
 const secuencias: { [nombre: string]: ISecuenciaAnimacion } = {};
-let aplicacion: Application<ICanvas>;
+let aplicacion: Application;
 
 /**
- * Crea la aplicación general de PIXI.
- * @returns La aplicación que controla toda la animación.
+ * Crea la aplicación general de PIXI (v8).
+ * IMPORTANTE: ahora es async porque hay que llamar app.init(...)
  */
-export function crearAplicacion() {
-  aplicacion = new Application({
-    backgroundColor: 0xffffe6,
-    // backgroundColor: 0xffffff,
-    powerPreference: 'high-performance',
-    autoStart: false,
-    view: document.getElementById('lienzo') as HTMLCanvasElement,
+export async function crearAplicacion() {
+  aplicacion = new Application();
+  const lienzo = document.getElementById("lienzo") as HTMLCanvasElement;
+  lienzo.style.backgroundColor = "#ffffe6";
+  await aplicacion.init({
+    // En v8 se usa `background` (hex o css) en vez de backgroundColor del constructor antiguo
+    background: 0xffffe6,
+    powerPreference: "high-performance",
+    // En v8 el canvas/elemento se pasa como `canvas`
+    canvas: lienzo,
+    // Si necesitas controlar el autoStart, en v8 se usa ticker/stop manualmente:
+    // preferible dejar el ticker corriendo y pausar donde toque
   });
+
+  // Si quieres pausar el render al inicio (equivalente a autoStart: false de antes):
+  aplicacion.ticker.stop();
 
   return aplicacion;
 }
@@ -25,22 +46,11 @@ export function crearAplicacion() {
 export function llamarSecuencia(nombre: string) {
   return secuencias[nombre];
 }
+
 let contadorPajaro = 0;
+
 /**
  * Crea una instancia de AnimatedSprite de PIXI.
- * Las propiedades y funciones se pueden ver en: https://pixijs.download/dev/docs/PIXI.AnimatedSprite.html
- *
- * @ejemplo
- *
- * ```js
- * const fondo = crearSecuencia('fondo', 0.1);
- * fondo.position.set(x, y);
- * ```
- *
- * @param nombre Nombre de la textura que contiene la secuencia de animación.
- * @param velocidad (Opcional) Velocidad a la que reproduce de 0.1 a 1.0. Entre más bajito el numero, más lento.
- * @param reproducirInmediatamente (Opcional) Útil si se quiere iniciar más adelante o para empezar la animación en otro frame diferente al inicial con `gotoAndPlay()`
- * @returns Instancia de AnimatedSprite
  */
 export function crearSecuencia(
   nombre: string,
@@ -48,15 +58,18 @@ export function crearSecuencia(
   reproducirInmediatamente = true,
   agregarALista = true
 ) {
-  if (!texturas[nombre]) return;
-  const secuencia = new AnimatedSprite(texturas[nombre].animations.anim) as ISecuenciaAnimacion;
-  // Como el efecto multiply en Photoshop.
-  // Aplicar a todas el efecto de multiplicación para que se combinen los dibujos uno encima del otro.
-  secuencia.blendMode = BLEND_MODES.MULTIPLY;
+  const hoja = texturas[nombre];
+  const framesAnim = hoja?.animations?.anim ?? [];
+  if (!hoja || framesAnim.length === 0) return;
+
+  const secuencia = new AnimatedSprite(framesAnim) as ISecuenciaAnimacion;
+
+  secuencia.blendMode = 'multiply';
   secuencia.animationSpeed = velocidad;
+
   let nombreModificado: string | null = null;
 
-  if (nombre === 'juanCamilo') {
+  if (nombre === "juanCamilo") {
     secuencia.anchor.set(0.5);
     if (contadorPajaro > 0) {
       nombreModificado = `juanCamilo${contadorPajaro}`;
@@ -92,34 +105,49 @@ export function mostrarTodas() {
   }
 }
 
-/**
- * Función para cargar todas las texturas (imágenes con los fotogramas de animación) registradas en el archivo `datos.ts` a la GPU.
- * Quedan disponibles para crear instancias de animación.
- * Se pueden crear múltiples instancias de animación desde una misma textura.
- *
- * @ejemplo
- * ```js
- * await cargarTexturas();
- * ```
- */
 export async function cargarTexturas() {
   for (const nombre of Object.keys(datos)) {
     const datosTextura = datos[nombre];
-    const textura = new Spritesheet(BaseTexture.from(datosTextura.fuente), datosTextura);
-    await textura.parse();
 
-    texturas[nombre] = textura;
+    // Validaciones mínimas para evitar crashes
+    if (!datosTextura) {
+      console.warn(`[Spritesheet] "${nombre}": datos faltantes`);
+      continue;
+    }
+    if (!datosTextura.fuente) {
+      console.warn(`[Spritesheet] "${nombre}": falta "fuente"`);
+      continue;
+    }
+    if (!datosTextura.frames || Object.keys(datosTextura.frames).length === 0) {
+      console.warn(`[Spritesheet] "${nombre}": "frames" vacío o ausente`);
+      continue;
+    }
+
+    // ✅ Carga REAL del recurso (Texture ya resuelta)
+    const texture = await Assets.load(datosTextura.fuente);
+
+    // ✅ Overload explícito por objeto en v8
+    const hoja = new Spritesheet({
+      texture,
+      data: datosTextura, // { frames, animations?, meta? }
+    });
+
+    await hoja.parse();
+
+    texturas[nombre] = hoja;
+
+    // Instancia por defecto (como antes)
     crearSecuencia(nombre, datosTextura.velocidad);
   }
 }
 
+
 /**
- * Transforma la estructura de datos que exporta el titiritero a la que necesita PIXI.
- *
- * @param datos Datos en el formato que exporta enflujo/titiritero
- * @returns Datos en el formato que necesita PIXI.
+ * Transforma datos del titiritero al formato de Spritesheet de Pixi.
  */
-export function transformarDatosTitiriteroAPixi(datos: IDatosTitiritero): IDatosPixi {
+export function transformarDatosTitiriteroAPixi(
+  datos: IDatosTitiritero
+): IDatosPixi {
   const datosFormatoPixi: IDatosPixi = {};
 
   for (const llave in datos) {
@@ -127,14 +155,19 @@ export function transformarDatosTitiriteroAPixi(datos: IDatosTitiritero): IDatos
     const secuencia: IDatosParaPixi = {
       fuente: imagen.fuente,
       frames: {},
-      meta: { scale: '1' },
+      meta: { scale: "1" },
       animations: { anim: imagen.orden ? imagen.orden : [] },
       velocidad: imagen.velocidad ? imagen.velocidad : 0.166,
     };
 
     imagen.fotogramas.forEach((fotograma, i) => {
       secuencia.frames[`${llave}${i}`] = {
-        frame: { x: fotograma.x, y: fotograma.y, w: fotograma.ancho, h: fotograma.alto },
+        frame: {
+          x: fotograma.x,
+          y: fotograma.y,
+          w: fotograma.ancho,
+          h: fotograma.alto,
+        },
       };
 
       if (!imagen.orden) {
@@ -149,9 +182,12 @@ export function transformarDatosTitiriteroAPixi(datos: IDatosTitiritero): IDatos
     if (imagen.pingPong && secuencia.animations) {
       // Clonar e invertir secuencia.
       const unaPasada = secuencia.animations.anim.map((f) => f).reverse();
-      unaPasada.shift(); // eliminar primer elemento del array.
+      unaPasada.shift(); // eliminar primer elemento
       unaPasada.pop(); // eliminar el último
-      secuencia.animations.anim = [...secuencia.animations.anim, ...unaPasada];
+      secuencia.animations.anim = [
+        ...secuencia.animations.anim,
+        ...unaPasada,
+      ];
     }
 
     datosFormatoPixi[llave] = secuencia;
@@ -160,5 +196,7 @@ export function transformarDatosTitiriteroAPixi(datos: IDatosTitiritero): IDatos
   return datosFormatoPixi;
 }
 
-export const aleatorioIntegral = (min: number, max: number) => Math.floor(Math.random() * (max - min)) + min;
-export const aleatorioFraccion = (min: number, max: number) => Math.random() * (max - min) + min;
+export const aleatorioIntegral = (min: number, max: number) =>
+  Math.floor(Math.random() * (max - min)) + min;
+export const aleatorioFraccion = (min: number, max: number) =>
+  Math.random() * (max - min) + min;
